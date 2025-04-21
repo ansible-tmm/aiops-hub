@@ -76,16 +76,7 @@ This is a workflow **example** from our hands-on workshop **Introduction to AI-D
 
 [![overview_diagram](assets/images/overview_diagram.png)](assets/images/overview_diagram.png)
 
-> ❓ **Why Mattermost?**
-> An open-source alternative to Slack/MS Teams. Used for this lab, but can be swapped for your favorite chat or ITSM system (e.g. *ServiceNow*).
-
-> ❓ **Why Gitea?**
-> Lightweight self-hosted Git. Replaceable with *GitHub*, *GitLab*, etc. Ideal for hands-on workshops.
-
-> ❓ **Why Kafka?**
-> Open-source event streaming platform. Replaceable with other buses like AWS SQS, Azure Service Bus, Prometheus, etc. EDA supports many integrations.
-
-
+> 💡 This is a high level diagram of an opinionated approach for AIOps.  This is easy customizable for a variety of IT infrastructure use-cases.
 
 ## Event-Driven Ansible (EDA) Response
 
