@@ -28,6 +28,10 @@
       - [Azure Service Bus](#azure-service-bus)
       - [Kafka](#kafka)
   - [2. Log Enrichment and Prompt Generation Workflow](#2-log-enrichment-and-prompt-generation-workflow)
+    - [1. Capture Additional Information](#1-capture-additional-information)
+    - [2. Red Hat AI: Analyze Incident](#2-red-hat-ai-analyze-incident)
+    - [3. Notify Chat / ITSM](#3-notify-chat--itsm)
+    - [4. Build Ansible Lightspeed Job Template](#4-build-ansible-lightspeed-job-template)
   - [3. Remediation Workflow](#3-remediation-workflow)
   - [4. Execute HTTPD Remediation](#4-execute-httpd-remediation)
 
@@ -235,7 +239,38 @@ Apache Kafka is a high-throughput, fault-tolerant event streaming platform that 
 
 
 ## 2. Log Enrichment and Prompt Generation Workflow
-   AAP coordinates with Red Hat AI, notifies Mattermost, auto-creates a Job Template
+
+The second part of the AIOps workflow is the **Log Enrichment and Prompt Generation Workflow** (or for shorthand the Enrichment Workflow).  Here is a breakdown of the four main componenets:
+
+<img src="assets/images/log_enrichment_and_prompt_generation.png">
+
+1. Capture Additional Information
+2. Red Hat AI: Analyze Incident
+3. Notify Chat / ITSM
+4. Build Ansible Lightspeed Job Template
+
+### 1. Capture Additional Information
+
+In our AIops workshop we have an Ansible Playbook that captures additional information from the host.  If server01 reports an outage with an application (e.g. httpd), we can have Ansible collect additional information to
+
+1. Confirm the systemd process is down
+2. Collect relevant logs
+3. Collect system information (operating system, memory, etc).
+
+This process is similar to agentic workflow, where we capture information, just as we need it.
+
+>💡An **agentic workflow** with AI refers to a system where an AI agent is empowered to make decisions, take actions, and pursue goals across multiple steps—often autonomously. Unlike a single API call or a static prompt, agentic workflows involve **planning, reasoning, tool use**, and possibly interacting with other agents or services. These agents maintain **state**, adjust behavior based on feedback, and operate in loops (like ReAct or AutoGPT). The goal is to replicate more human-like problem solving, where the AI isn't just responding, but actively **working through a task**. This is especially useful in AIOps, automation, and multi-step orchestration.
+
+In this case we have a static workflow versus a fully agentic workflow, but unlike just a static LLM query, we are giving inputs from multiple sources, the event, the observability tool, system logs, and an Ansible Playbook running on the host to reterive any additional info. In the future you will see increasibly more and more ability for the operations team to allow AI tools thea bility to act more autonomously.
+
+### 2. Red Hat AI: Analyze Incident
+### 3. Notify Chat / ITSM
+### 4. Build Ansible Lightspeed Job Template
+
+
+
+
+AAP coordinates with Red Hat AI, notifies Mattermost, auto-creates a Job Template
 
 - Red Hat AI infers incident context
 
