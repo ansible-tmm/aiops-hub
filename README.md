@@ -240,6 +240,34 @@ Azure Service Bus is a fully managed enterprise messaging service that provides 
 
 Apache Kafka is a high-throughput, fault-tolerant event streaming platform that serves as a powerful backbone for AIOps workflows by enabling real-time ingestion, aggregation, and distribution of operational events. In an AIOps context, Kafka acts as a central nervous system, collecting telemetry data, logs, alerts, and state changes from diverse sources across infrastructure and applications. This event stream can then be consumed by automation engines like Ansible Event-Driven Automation (EDA), which listen for specific patterns and trigger intelligent remediation workflows. By decoupling event producers and consumers, Kafka ensures scalability, durability, and reliability—making it ideal for building responsive, self-healing systems that operate on live operational signals.
 
+Example rulebook for Kafka:
+
+```yaml
+---
+- name: Web app issue
+  hosts: all
+  sources:
+   - ansible.eda.kafka:
+       host: service1
+       port: 9092
+       topic: httpd-error-logs
+
+  rules:
+    - name: apache shutdown detected
+      condition: event.body.message is search("shutting down")
+      action:
+        run_workflow_template:
+          organization: "Default"
+          name: "{{ workflow_template_name | default('AI Insights and Lightspeed prompt generation') }}"
+
+    - name: show event messages
+      condition: event.body.message is defined
+      action:
+        debug:
+          msg: "{{ event.body.message }}"
+
+```
+
 
 
 ## 2. Log Enrichment and Prompt Generation Workflow
@@ -365,6 +393,42 @@ Slack is a widely adopted enterprise messaging and collaboration platform known 
 
 ### 4. Build Ansible Lightspeed Job Template
 
+The final piece of this workflow is creating (or updating) a Ansible Automation Platform job template with the insights we just gained from Red Hat AI.
+
+We have a problem, such as an application outage, and we now have a solution: for example: "there is a mis-configuration on this line" and now we can use this information we gleaned and now prompt Ansible Lightspeed in the next workflow, the **Remediation workflow**.  We are basically using one AI endpoint (Red Hat AI) to help create a prompt to a second AI endpoint (Ansible Lightspeed) to create an Ansible Playbook to help remediate the issue.
+
+<img src="assets/images/workflow_prompt.png">
+
+A way to do this (an opinionated way, but not the only way) is to use an <a target="_blank" href="https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/latest/html-single/using_automation_execution/index#controller-surveys-in-job-templates">Ansible Survey</a>.
+
+In the above screenshot, the left is the prompt we will use in the next workflow, while the right is the insights we gleaned from Red Hat AI based on all the information it had.  This is a nautural breakpoint where the human can corse correct the prompt.  We will still have time to review the solution before we move it into production, but it may make sense for your IT operations team to review this prompt before we move onto Lightspeed.
+
+> 💡 Could we make this one workflow rather than breaking it up? YES! absolutely.  This is just showing how it is easy to adopt AIOps incrementally and add natural breakpoints to review what is happening as you adopt AI into your IT workflows.
+
+Here is an excerpt from the Ansible Playbook used in our AIOps workshop:
+
+```yaml
+    - name: Create Job Template
+      ansible.controller.job_template:
+        name: "🧠 Lightspeed Remediation Playbook Generator"
+        job_type: "run"
+        inventory: "{{ input_inventory | default('Demo Inventory') }}"
+        project: "{{ input_project | default('AI-EDA') }}"
+        playbook: "{{ input_playbook | default('playbooks/lightspeed_generate.yml') }}"
+        credentials:
+          - "{{ input_credential | default('AAP') }}"
+          - "{{ vault_credential | default('ansible-vault') }}"
+        validate_certs: true
+        execution_environment: "Default execution environment"
+
+    - name: Load remediation workflow template
+      ansible.controller.workflow_job_template:
+        name: Remediation Workflow
+        organization: Default
+        state: present
+        survey_enabled: true
+        survey_spec: "{{ lookup('template', playbook_dir + '/templates/survey.j2') }}"
+```
 
 ## 3. Remediation Workflow
    Generates a playbook via Ansible Lightspeed, syncs it to Git, builds another Job Template
