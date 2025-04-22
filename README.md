@@ -30,7 +30,11 @@
   - [2. Log Enrichment and Prompt Generation Workflow](#2-log-enrichment-and-prompt-generation-workflow)
     - [1. Capture Additional Information](#1-capture-additional-information)
     - [2. Red Hat AI: Analyze Incident](#2-red-hat-ai-analyze-incident)
+      - [🛠️ Tools That Support the OpenAI-Compatible API](#️-tools-that-support-the-openai-compatible-api)
     - [3. Notify Chat / ITSM](#3-notify-chat--itsm)
+      - [Mattermost](#mattermost)
+      - [ServiceNow](#servicenow)
+      - [Slack](#slack)
     - [4. Build Ansible Lightspeed Job Template](#4-build-ansible-lightspeed-job-template)
   - [3. Remediation Workflow](#3-remediation-workflow)
   - [4. Execute HTTPD Remediation](#4-execute-httpd-remediation)
@@ -261,18 +265,106 @@ This process is similar to agentic workflow, where we capture information, just 
 
 >💡An **agentic workflow** with AI refers to a system where an AI agent is empowered to make decisions, take actions, and pursue goals across multiple steps—often autonomously. Unlike a single API call or a static prompt, agentic workflows involve **planning, reasoning, tool use**, and possibly interacting with other agents or services. These agents maintain **state**, adjust behavior based on feedback, and operate in loops (like ReAct or AutoGPT). The goal is to replicate more human-like problem solving, where the AI isn't just responding, but actively **working through a task**. This is especially useful in AIOps, automation, and multi-step orchestration.
 
-In this case we have a static workflow versus a fully agentic workflow, but unlike just a static LLM query, we are giving inputs from multiple sources, the event, the observability tool, system logs, and an Ansible Playbook running on the host to reterive any additional info. In the future you will see increasibly more and more ability for the operations team to allow AI tools thea bility to act more autonomously.
+In this case we have a static workflow versus a fully agentic workflow, but unlike just a static LLM query, we are giving inputs from multiple sources, the event, the observability tool, system logs, and an Ansible Playbook running on the host to reterive any additional info. In the future you will see increasibly more and more ability for the operations team to allow AI tools the ability to act more autonomously.
 
 ### 2. Red Hat AI: Analyze Incident
+
+To interface with Red Hat AI we can use the API.  Many AI tools, including Red Hat AI, are using the OpenAI API standard.
+
+> 💡The OpenAI API (/v1/completions, /v1/chat/completions) became a standard for interacting with LLMs because:
+> - It was the first widely adopted commercial LLM API
+> - It has a clean, JSON-based format that is easy to integrate
+> - Tons of apps, SDKs, frameworks (like LangChain, AutoGen, Semantic Kernel) built around it
+>
+
+In an AIOps context, **inference** refers to the process where an AI model receives a question or input—such as a system error, log snippet, or performance metric—via an API, and returns a prediction or insight. This could include identifying root causes, classifying incidents, or suggesting remediation steps. The model has already been trained, so inference is the **real-time application** of that knowledge to live operational data. It's a key part of integrating AI into IT workflows, enabling automated, intelligent responses without human intervention.
+
+Here is an ansible Ansible task for inference to Red Hat AI:
+
+```yaml
+
+    - name: Send POST request using uri module
+      ansible.builtin.uri:
+        url: "http://{{ rhelai_server }}:{{ rhelai_port }}/v1/completions"
+        method: POST
+        headers:
+          accept: "application/json"
+          Content-Type: "application/json"
+          Authorization: "Bearer {{ rhelai_token }}"
+        body:
+          prompt: "{{ gpt_prompt | default('What is the capital of the USA?') }}"
+          max_tokens: "{{ max_tokens | default('50') }}"
+          model: "/root/.cache/instructlab/models/granite-8b-lab-v1"
+          temperature: "{{ input_temperature | default(0) }}"
+          top_p: "{{ input_top_p | default(1) }}"
+          n: "{{ input_n | default(1) }}"
+        body_format: json
+        return_content: true
+        status_code: 200
+        timeout: 60
+      register: gpt_response
+```
+
+- `prompt:` The text input or question you want the AI to respond to.
+- `max_tokens:` The maximum number of tokens (words or sub-words) the AI can generate in its response.
+- `model:` The path to the specific AI model used to generate the response.
+- `temperature:` Controls randomness; lower values make outputs more deterministic, while higher values increase creativity.
+- `top_p:` Limits the AI to sampling from the top probability mass (e.g., top 90%) for more focused outputs.
+- `n:` Specifies how many different completions you want the AI to generate for the given prompt.
+
+> 💡 You'd want n: 1 when you're only interested in getting a single best response from the AI — which:
+> - Reduces overhead: Less processing time and memory usage, especially important when running local models like Red Hat AI.
+> - Simplifies parsing: You don’t have to iterate over multiple completions or choose the best one.
+> - Keeps things deterministic (especially with temperature: 0): When you're aiming for predictable, repeatable automation — like in AIOps workflows — one clear response is ideal.
+> - Basically, n: 1 is perfect for most automation tasks where you just need one solid, confident answer without extra noise.
+>
+
+> 💡 Could I bring my own AI? Absolutely, since so many tools on the market use an OpenAI compatible API, you can use the same playbooks (or the task example above) to interface with the AI of your choice.
+
+
+#### 🛠️ Tools That Support the OpenAI-Compatible API
+
+| Tool                      | Description                                                                                  |
+|---------------------------|----------------------------------------------------------------------------------------------|
+| **vLLM**                  | Efficient LLM serving engine with OpenAI-compatible endpoints for both completion and chat APIs |
+| **llama.cpp**             | Lightweight C++ LLM inference with a `--server` mode that mimics OpenAI API                  |
+| **Ollama**                | CLI + local model manager that serves LLaMA and Mistral models via OpenAI-compatible endpoints |
+| **LM Studio**             | GUI for local LLMs that exposes an OpenAI-compatible endpoint                                 |
+| **Text Generation WebUI**| Hugely flexible GUI for multiple models (GGUF, HF, etc), includes OpenAI API adapter          |
+| **LocalAI**              | Drop-in OpenAI replacement server with multi-backend support (llama.cpp, GPT4All, etc)       |
+| **DeepInfra**            | Model hosting provider offering OpenAI-compatible APIs                                       |
+| **Replicate**            | Platform for hosting ML models with optional OpenAI-style API access                          |
+| **Anyscale**             | Provides OpenAI-compatible APIs for hosted open models with high performance                 |
+
+
 ### 3. Notify Chat / ITSM
+
+This is where we synchronize the output from Red Hat AI to another outside system.  Here some great options:
+
+#### Mattermost
+
+<img width="200" src="assets/images/matter_most_logo.svg">
+
+<a target="_blank" href="https://docs.ansible.com/ansible/latest/collections/community/general/mattermost_module.html">Mattermost Documentation</a>
+
+**Mattermost** is an open-source, self-hostable chat and collaboration platform designed for secure team communication. In AIOps workflows, it’s a powerful tool for surfacing alerts, AI-generated insights, and automated remediation steps in real time—acting as a centralized command and control interface. Unlike Slack, Mattermost is free to use and gives you full control over deployment, integrations, and data privacy. It supports robust API and webhook integrations, making it easy to connect with automation tools like Ansible or event-driven systems. This makes it a great choice for teams building transparent, automated operations workflows.  We use it in the AIOps workshop as an example similar to Slack or Microsoft Teams.
+
+#### ServiceNow
+
+<img width="200" src="assets/images/servicenow-logo.svg">
+
+<a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/servicenow/itsm/">ServicenNow on Automation hub</a>
+
+ServiceNow is an enterprise-grade **IT Service Management (ITSM)** platform designed to manage and automate IT operations, workflows, and service delivery—not a chat tool. In AIOps workflows, ServiceNow acts as the system of record for incidents, changes, and problem management, often triggered or enriched by AI-driven insights. It excels at ticketing, approvals, asset management, and ensuring IT compliance across organizations. Unlike chat apps, ServiceNow is built for structured workflows, automation, and integrations with tools like monitoring systems, CMDBs, and Ansible Automation Platform. It plays a critical role in closing the loop between detection, diagnosis, and resolution in modern IT operations.
+
+#### Slack
+
+<img width="200" src="assets/images/slack_logo.png">
+
+Slack is a widely adopted enterprise messaging and collaboration platform known for its polished user experience, robust integrations, and strong support ecosystem. In AIOps workflows, Slack is often used as a real-time communication hub where AI-driven alerts, diagnostics, and automation updates can be delivered directly to teams. It offers enterprise-grade features like identity management, compliance tools, and 24/7 support, making it a reliable choice for regulated and large-scale environments. Its rich API and app ecosystem allow seamless integration with platforms like ServiceNow, Ansible, and monitoring tools. While it's a paid solution, many organizations value its scalability, reliability, and enterprise-level support.
+
 ### 4. Build Ansible Lightspeed Job Template
 
-
-
-
-AAP coordinates with Red Hat AI, notifies Mattermost, auto-creates a Job Template
-
-- Red Hat AI infers incident context
 
 ## 3. Remediation Workflow
    Generates a playbook via Ansible Lightspeed, syncs it to Git, builds another Job Template
