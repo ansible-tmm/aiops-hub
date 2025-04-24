@@ -37,7 +37,11 @@
       - [Slack](#slack)
     - [4. Build Ansible Lightspeed Job Template](#4-build-ansible-lightspeed-job-template)
   - [3. Remediation Workflow](#3-remediation-workflow)
-  - [4. Execute HTTPD Remediation](#4-execute-httpd-remediation)
+    - [1. Lightspeed Remedation Playbook Generator](#1-lightspeed-remedation-playbook-generator)
+    - [2. Commit Fix to Git](#2-commit-fix-to-git)
+    - [3. Sync Project](#3-sync-project)
+    - [4. Build Remedation Template](#4-build-remedation-template)
+  - [4. Execute Remediation](#4-execute-remediation)
 
 
 ## Background
@@ -459,19 +463,88 @@ We are able to dynamically update the survey inside the workflow by using the su
 
 Now everytime the first workflow **Log Enrichment and Prompt Generation Workflow** runs, the second workflow **Remediation Workflow** automatically has its survey updates to be relevant to that workflow. This is doing **Config as Code** using the ansible.controller content collection.
 
-Please consider using the <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/">AAP Configuration Collection on Automation hub.</a> This content collection  simplifies interactions for Ansible Automation Platform.
+Please consider using the <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/">AAP Configuration Collection on Automation hub.</a> This content collection simplifies interactions for Ansible Automation Platform.
 
 ## 3. Remediation Workflow
-   Generates a playbook via Ansible Lightspeed, syncs it to Git, builds another Job Template
 
-- Ansible Lightspeed generates remediation playbooks
-- Gitea manages playbooks via Git
+The third part of the AIOps workflow is the **Remediation Workflow**.  This workflow will take a prompt from the previous workflow, allow the human operator to customize this prompt, then build an Ansible Playbook to remediate the issue, sync this to git and build a job template that will run this playbook for the final step.
+
+ Here is a breakdown of the four main componenets:
+
+<img src="assets/images/remediation_workflow.png">
+
+1. Lightspeed Remedation Playbook Generator
+2. Commit Fix to Git
+3. Sync Project
+4. Build Remedation Template
+
+### 1. Lightspeed Remedation Playbook Generator
+
+Ansible Lightspeed also has an API.  We can communicate to this API similarly as we do with Red Hat AI solutions.  Here is an example task:
+
+```yaml
+    - name: Send request to AI API
+      ansible.builtin.uri:
+        url: "{{ input_lightspeed_url | default('https://c.ai.ansible.redhat.com/api/v0/ai/generations/') }}"
+        method: POST
+        headers:
+          Content-Type: "application/json"
+          Authorization: "Bearer {{ lightspeed_wca_token }}"
+        body_format: json
+        body:
+          text: "{{ lightspeed_prompt }}"
+      register: response
+```
+
+The API will respond with the Ansible Playbook as part of the payload under the `playbook` keyword.  You can see the response in the Job Output window:
+
+<img src="assets/images/return_playbook.png">
+
+### 2. Commit Fix to Git
+
+One the Ansible Playbook is retreieve from Ansible Lightspeed, we need to store it in a Git repo.  We can use the <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ansible/scm/">Ansible SCM</a> (source control management) content collection to easily publish the content to any specified repo.
+
+Here is an excerpt from our AIOps Workshop:
+
+```yaml
+    - name: Commit and push final version of playbook to Gitea
+      ansible.scm.git_publish:
+        path: "{{ repository['path'] }}"
+        token: "{{ gitea_token }}"
+```
+
+### 3. Sync Project
+
+This is a special node type inside the Workflow Visualizer that will sync a Project.  Since we just pushed this Ansible Playbook to Git we need to sync the Project to update and retrieve this playbook to be used in an Ansible Job Template.  Here is a screen shot from the Workflow visualizer showing the **Project Sync**:
+
+<img src="assets/images/workflow_node_type.png">
+
+### 4. Build Remedation Template
+
+The final job template inside this workflow is creating a new job template with the newly created Ansible Playbook.  We can use the `ansible.controller` content collection to dynamically build this.  Here is an example:
+
+```yaml
+    - name: Create Job Template
+      ansible.controller.job_template:
+        name: "🔧✅ Execute HTTPD Remediation"
+        job_type: "run"
+        inventory: "{{ input_inventory | default('lab-inventory') }}"
+        project: "{{ input_project | default('Lightspeed-Playbooks') }}"
+        playbook: "{{ input_playbook | default('lightspeed-response.yml') }}"
+        credential: "{{ input_credential | default('lab-credential') }}"
+        validate_certs: true
+        execution_environment: "Default execution environment"
+        become_enabled: true
+        ask_limit_on_launch: true
+```
+
+> 💡 Could we just run the new playbook within this workflow and fixed it right now? YES, but you may want to run the playbook during a specific change window.  This is another natural breakpoint where you can add more guard rails before you push an Ansible job into production.  Now that you have the Job Template queued up, you can run it whenever you want.
 
 
-## 4. Execute HTTPD Remediation
-   The final Job Template that fixes the Apache outage
+## 4. Execute Remediation
 
-- AAP executes jobs and workflows
+The final Job Template that fixes the issue
+
 
 
 ---
