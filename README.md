@@ -549,4 +549,4 @@ The final Job Template that fixes the issue
 
 ---
 
-![aap_logo](assets/images/aap_logo.png)
+<img width="400" src="assets/images/aap_logo.png">
