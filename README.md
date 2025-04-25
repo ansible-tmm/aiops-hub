@@ -384,7 +384,7 @@ This is where we synchronize the output from Red Hat AI to another outside syste
 
 #### ServiceNow
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/servicenow-logo.svg?raw=true">
+<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/servicenow-logo.png?raw=true">
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/servicenow/itsm/">ServicenNow on Automation hub</a>
 
