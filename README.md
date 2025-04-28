@@ -358,7 +358,7 @@ Here is an ansible Ansible task for inference to Red Hat AI:
 > <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" width="20" style="vertical-align:text-bottom;"> Could I bring my own AI? Absolutely, since so many tools on the market use an OpenAI compatible API, you can use the same playbooks (or the task example above) to interface with the AI of your choice.
 
 
-#### <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f6e0.png" width="20" style="vertical-align:text-bottom;"> Tools That Support the OpenAI-Compatible API
+#### Tools That Support the OpenAI-Compatible API
 
 | Tool                      | Description                                                                                  |
 |---------------------------|----------------------------------------------------------------------------------------------|
