@@ -1,6 +1,8 @@
 
 # AIOps automation with Ansible - Solution Guide <!-- omit in toc -->
 
+> **Knowledge Base Article**: [https://access.redhat.com/articles/7119667](https://access.redhat.com/articles/7119667)
+
 <style>
   div#toc {
     display: none;

@@ -1,6 +1,8 @@
 
 # AI Infrastructure Automation with Ansible – Solution Guide
 
+> **Knowledge Base Article**: [https://access.redhat.com/articles/7118390](https://access.redhat.com/articles/7118390)
+
 <style>
   div#toc {
     display: none;
