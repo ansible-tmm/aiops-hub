@@ -1,5 +1,5 @@
 
-# AIOps Hub - Solution Guide for Ansible Automation Platform customers
+# AIOps Hub - Solution Guide for Ansible Automation Platform customers <!-- omit in toc -->
 
 <style>
   div#toc {
@@ -7,46 +7,50 @@
   }
 </style>
 
+<h2 id="overview"></h2>
+
 ## Overview
 
-![aiops](https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/aiops.png?raw=true)
+![aiops](https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/aiops.png)
 
-  - [Overview](#overview-1)
-  - [Background](#background-2)
-  - [Solution](#solution-3)
-  - [AIOps Workflow](#aiops-workflow-4)
-    - [Example Workflow Diagram](#example-workflow-diagram-5)
-  - [1. Event-Driven Ansible (EDA) Response](#1-event-driven-ansible-eda-response-6)
-    - [Example Walkthrough for EDA Reponse](#example-walkthrough-for-eda-reponse-7)
-    - [1. **IT infrastrucure event**:](#1-it-infrastrucure-event-8)
-      - [ Application-Level Events](#-application-level-events-9)
-      - [ Infrastructure \& Platform Events](#-infrastructure--platform-events-10)
-      - [ Network \& Security Events](#-network--security-events-11)
-      - [Observability-Driven Triggers](#observability-driven-triggers-12)
-    - [2. **Observability tool picks up event**:](#2-observability-tool-picks-up-event-13)
-      - [Filebeat](#filebeat-14)
-      - [IBM Instana](#ibm-instana-15)
-      - [Splunk](#splunk-16)
-    - [3. **EDA sees event in message queue**](#3-eda-sees-event-in-message-queue-17)
-      - [AWS SQS](#aws-sqs-18)
-      - [Azure Service Bus](#azure-service-bus-19)
-      - [Kafka](#kafka-20)
-  - [2. Log Enrichment and Prompt Generation Workflow](#2-log-enrichment-and-prompt-generation-workflow-21)
-    - [1. Capture Additional Information](#1-capture-additional-information-22)
-    - [2. Red Hat AI: Analyze Incident](#2-red-hat-ai-analyze-incident-23)
-      - [ Tools That Support the OpenAI-Compatible API](#-tools-that-support-the-openai-compatible-api-24)
-    - [3. Notify Chat / ITSM](#3-notify-chat--itsm-25)
-      - [Mattermost](#mattermost-26)
-      - [ServiceNow](#servicenow-27)
-      - [Slack](#slack-28)
-    - [4. Build Ansible Lightspeed Job Template](#4-build-ansible-lightspeed-job-template-29)
-  - [3. Remediation Workflow](#3-remediation-workflow-30)
-    - [1. Lightspeed Remedation Playbook Generator](#1-lightspeed-remedation-playbook-generator-31)
-    - [2. Commit Fix to Git](#2-commit-fix-to-git-32)
-    - [3. Sync Project](#3-sync-project-33)
-    - [4. Build Remedation Template](#4-build-remedation-template-34)
-  - [4. Execute Remediation](#4-execute-remediation-35)
-    - [Policy Enforcement](#policy-enforcement-36)
+- [Overview](#overview)
+- [Background](#background)
+- [Solution](#solution)
+- [AIOps Workflow](#aiops-workflow)
+  - [Example Workflow Diagram](#example-workflow-diagram)
+- [1. Event-Driven Ansible (EDA) Response](#1-event-driven-ansible-eda-response)
+  - [Example Walkthrough for EDA Reponse](#example-walkthrough-for-eda-reponse)
+  - [1. **IT infrastrucure event**:](#1-it-infrastrucure-event)
+    - [ Application-Level Events](#-application-level-events)
+    - [ Infrastructure \& Platform Events](#-infrastructure--platform-events)
+    - [ Network \& Security Events](#-network--security-events)
+    - [Observability-Driven Triggers](#observability-driven-triggers)
+  - [2. **Observability tool picks up event**:](#2-observability-tool-picks-up-event)
+    - [Filebeat](#filebeat)
+    - [IBM Instana](#ibm-instana)
+    - [Splunk](#splunk)
+  - [3. **EDA sees event in message queue**](#3-eda-sees-event-in-message-queue)
+    - [AWS SQS](#aws-sqs)
+    - [Azure Service Bus](#azure-service-bus)
+    - [Kafka](#kafka)
+- [2. Log Enrichment and Prompt Generation Workflow](#2-log-enrichment-and-prompt-generation-workflow)
+  - [1. Capture Additional Information](#1-capture-additional-information)
+  - [2. Red Hat AI: Analyze Incident](#2-red-hat-ai-analyze-incident)
+    - [Tools That Support the OpenAI-Compatible API](#tools-that-support-the-openai-compatible-api)
+  - [3. Notify Chat / ITSM](#3-notify-chat--itsm)
+    - [Mattermost](#mattermost)
+    - [ServiceNow](#servicenow)
+    - [Slack](#slack)
+  - [4. Build Ansible Lightspeed Job Template](#4-build-ansible-lightspeed-job-template)
+- [3. Remediation Workflow](#3-remediation-workflow)
+  - [1. Lightspeed Remedation Playbook Generator](#1-lightspeed-remedation-playbook-generator)
+  - [2. Commit Fix to Git](#2-commit-fix-to-git)
+  - [3. Sync Project](#3-sync-project)
+  - [4. Build Remedation Template](#4-build-remedation-template)
+- [4. Execute Remediation](#4-execute-remediation)
+  - [Policy Enforcement](#policy-enforcement)
+
+<h2 id="background"></h2>
 
 ## Background
 
@@ -74,6 +78,8 @@ There are three major parts of AIOps:
 
 > <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" width="20" style="vertical-align:text-bottom;"> AIOps adoption can be incremental. You don’t need full automation on Day One. *Start small, think big!*
 
+<h2 id="solution"></h2>
+
 ## Solution
 
 What makes up the solution?
@@ -89,7 +95,10 @@ What makes up the solution?
 - <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4e2.png" width="20" style="vertical-align:text-bottom;"> [Please consider subscribing to the Ansible Team!](https://youtube.com/ansibleautomation?sub_confirmation=1)
 
 
+<h2 id="aiops-workflow"></h2>
+
 ## AIOps Workflow
+
 
 An AIOps workflow has four (4) parts:
 
@@ -111,6 +120,8 @@ An AIOps workflow has four (4) parts:
 
 > <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" width="20" style="vertical-align:text-bottom;"> Could this be one workflow? Yes — but it’s broken up for review points and easier adoption.
 
+<h3 id="example-workflow-diagram"></h3>
+
 ### Example Workflow Diagram
 
 This is a workflow **example** from our hands-on workshop **Introduction to AI-Driven Ansible Automation**
@@ -120,16 +131,20 @@ This is a workflow **example** from our hands-on workshop **Introduction to AI-D
 
 > <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" width="20" style="vertical-align:text-bottom;"> This is a high level diagram of an opinionated approach for AIOps.  This is easy customizable for a variety of IT infrastructure use-cases.
 
+<h2 id="1-event-driven-ansible-eda-response"></h2>
+
 ## 1. Event-Driven Ansible (EDA) Response
 
 The first part of the AIOps workflow is the **Event-Driven Ansible (EDA) Response**.  Here is a breakdown of the four main componenets:
 
-<a target="_blank" href="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/eda_response.png"><img src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/eda_response.png?raw=true"></a>
+<a target="_blank" href="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/eda_response.png"><img src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/eda_response.png"></a>
 
   1. IT infrastrucure event
   2. Observability tool picks up event
   3. EDA sees event in message queue
   4. Execute Enrichment workflow
+
+<h3 id="example-walkthrough-for-eda-reponse"></h3>
 
 ### Example Walkthrough for EDA Reponse
 
@@ -149,11 +164,15 @@ In our hands-on workshop we simulate an **httpd** application outage.  This is h
 
 Now that you understand our workflow example, lets dive into production-grade examples:
 
+<h3 id="1-it-infrastrucure-event"></h3>
+
 ### 1. **IT infrastrucure event**:
 
 What kind of events are relevant in an AIOps workflow?  EDA's value proposition is that it is extremely versatile and pluggable.  This means that Ansible Automation Platform can effectivley handle any type of event.
 
 However here is a great list of ideas:
+
+<h4 id="img-srchttpscdnjsdelivrnetghtwittertwemoji1402assets72x721f525png-width20-stylevertical-aligntext-bottom-application-level-events"></h4>
 
 #### <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f525.png" width="20" style="vertical-align:text-bottom;"> Application-Level Events
 
@@ -165,6 +184,8 @@ However here is a great list of ideas:
 | **Web app fails readiness check** | Kubernetes liveness/readiness probe | Reboot pod, scale another replica, or notify developer team |
 | **API latency exceeds threshold** | APM tool (e.g., Dynatrace, Instana) | Provision more backend instances or restart slow services |
 
+<h4 id="img-srchttpscdnjsdelivrnetghtwittertwemoji1402assets72x722699png-width20-stylevertical-aligntext-bottom-infrastructure--platform-events"></h4>
+
 #### <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/2699.png" width="20" style="vertical-align:text-bottom;"> Infrastructure & Platform Events
 
 | Event | Source | Example Response |
@@ -175,6 +196,8 @@ However here is a great list of ideas:
 | **Node goes NotReady in Kubernetes** | K8s API | Cordon node, reassign pods, and open a ticket |
 | **Filesystem becomes read-only** | `dmesg`, audit logs, OS-level alerts | Unmount and remount or migrate app to another host |
 
+<h4 id="img-srchttpscdnjsdelivrnetghtwittertwemoji1402assets72x721f310png-width20-stylevertical-aligntext-bottom-network--security-events"></h4>
+
 #### <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f310.png" width="20" style="vertical-align:text-bottom;"> Network & Security Events
 
 | Event | Source | Example Response |
@@ -184,6 +207,8 @@ However here is a great list of ideas:
 | **SSL certificate expiring soon** | Certbot, monitoring tool | Auto-renew with Let's Encrypt, push new cert with Ansible |
 | **DNS resolution failures** | `systemd-resolved`, DNS logs | Switch DNS provider or fix `/etc/resolv.conf` |
 
+<h4 id="img-srchttpscdnjsdelivrnetghtwittertwemoji1402assets72x721f4a1png-width20-stylevertical-aligntext-bottomobservability-driven-triggers"></h4>
+
 #### <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" width="20" style="vertical-align:text-bottom;">Observability-Driven Triggers
 
 | Event | Source | Example Response |
@@ -192,57 +217,71 @@ However here is a great list of ideas:
 | **New critical error introduced in logs post-deploy** | ELK, Honeycomb, etc. | Rollback deployment via Ansible |
 | **User reports spike via feedback or ticket** | ITSM tools | Use AI to correlate symptoms, gather diagnostics, and kick off a fix |
 
-
+<h3 id="2-observability-tool-picks-up-event"></h3>
 ### 2. **Observability tool picks up event**:
 
 Now that you have a great understanding of types of events, what are great examples of observability tools that can plug-in to an AIOps workflow:
 
+<h4 id="filebeat"></h4>
+
 #### Filebeat
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/beats-logo.webp?raw=true">
+<img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/beats-logo.webp">
 
 Filebeat is a lightweight, open-source log shipper developed by Elastic that collects and forwards logs to other parts of the Elastic Stack. It's part of the "beats" family, which includes other tools for collecting various data types. Filebeat is specifically designed for efficiently shipping log files, making it suitable for environments where resource usage needs to be minimized, like microservices or cloud-native setups.  This was used in our Ansible workshop and is not an observability tool and would also require an message bus like Kafka to operate.  It is simply forwarding logs from an end-system to a message aggeregator.
 
+<h4 id="ibm-instana"></h4>
+
 #### IBM Instana
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/ibm_instana.png?raw=true">
+<img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/ibm_instana.png">
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ibm/instana/">IBM Instana on Automation hub</a>
 
 IBM Instana is a powerful observability platform designed for modern, cloud-native environments, making it an ideal foundation for AIOps strategies. It provides real-time, high-fidelity visibility into applications, services, infrastructure, and dependencies across hybrid and multicloud environments. What sets Instana apart is its ability to automatically detect changes, trace every request end-to-end, and generate context-rich alerts—enabling faster root cause analysis and proactive remediation. With built-in AI and contextual correlation, Instana helps operations teams surface anomalies, understand service impact, and trigger automation workflows, making it a key enabler for intelligent, self-healing systems in an AIOps ecosystem.
 
+<h4 id="splunk"></h4>
+
 #### Splunk
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/splunk-logo.png?raw=true">
+<img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/splunk-logo.png">
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/namespaces/splunk/">Splunk on Automation hub</a>
 
 Splunk is a leading data analytics and log aggregation platform that plays a pivotal role in AIOps by turning massive volumes of machine data into actionable insights. With its ability to ingest logs, metrics, traces, and events from virtually any source, Splunk provides a centralized view of system health and performance across complex IT environments. Its AIOps capabilities are driven by advanced machine learning, anomaly detection, and predictive analytics, allowing teams to proactively identify issues before they impact users. By correlating disparate signals and enriching incidents with contextual data, Splunk helps automate root cause analysis and streamline incident response workflows—making it an essential tool for organizations looking to implement intelligent, data-driven operations.
 
 
+<h3 id="3-eda-sees-event-in-message-queue"></h3>
+
 ### 3. **EDA sees event in message queue**
 
 Message queues are optional depending on the observability tool.  For example IBM Instana can work directly with Event-Driven Ansible to trigger automation jobs, or it can work with a message queue like Apache Kafka.  Here are some examples of other message queues that Ansible Automation Platform works with:
 
+<h4 id="aws-sqs"></h4>
+
 #### AWS SQS
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/aws-logo.png?raw=true">
+<img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/aws-logo.png">
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/amazon/aws/">AWS on Automation hub</a>
 
 Amazon SQS (Simple Queue Service) is a managed message queuing service from AWS that facilitates asynchronous communication between different components of a system. It allows for decoupling of applications, making them more resilient and scalable. SQS acts as a temporary repository for messages, enabling producers (applications sending messages) and consumers (applications receiving and processing messages) to communicate without direct dependencies.
 
+<h4 id="azure-service-bus"></h4>
+
 #### Azure Service Bus
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/azure_service_bus.jpg?raw=true">
+<img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/azure_service_bus.jpg">
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ansible/eda/content/eda%2Fplugins%2Fevent_source/azure_service_bus/">Azure Service Bus on Automation hub</a>
 
 Azure Service Bus is a fully managed enterprise messaging service that provides robust message queuing and publish-subscribe capabilities, making it an excellent fit for AIOps workflows in cloud-centric environments. With support for features like message deduplication, dead-lettering, and advanced filtering, Azure Service Bus enables reliable, scalable communication between distributed systems. In an AIOps setup, it serves as a secure and resilient backbone for aggregating events and operational signals from Azure resources, applications, or third-party systems. Tools like Ansible Event-Driven Automation can subscribe to topics or queues within Service Bus to detect anomalies, failures, or changes and trigger automated remediation workflows—enabling intelligent, event-driven operations with built-in cloud-native integration.
 
+<h4 id="kafka"></h4>
+
 #### Kafka
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/kafka_logo.webp?raw=true">
+<img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/kafka_logo.webp">
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ansible/eda/content/eda%2Fplugins%2Fevent_source/kafka/">Kafka on Automation hub</a>
 
@@ -277,17 +316,20 @@ Example rulebook for Kafka:
 ```
 
 
+<h2 id="2-log-enrichment-and-prompt-generation-workflow"></h2>
 
 ## 2. Log Enrichment and Prompt Generation Workflow
 
 The second part of the AIOps workflow is the **Log Enrichment and Prompt Generation Workflow** (or for shorthand the Enrichment Workflow).  Here is a breakdown of the four main componenets:
 
-<img src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/log_enrichment_and_prompt_generation.png?raw=true">
+<img src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/log_enrichment_and_prompt_generation.png">
 
 1. Capture Additional Information
 2. Red Hat AI: Analyze Incident
 3. Notify Chat / ITSM
 4. Build Ansible Lightspeed Job Template
+
+<h3 id="1-capture-additional-information"></h3>
 
 ### 1. Capture Additional Information
 
@@ -302,6 +344,8 @@ This process is similar to agentic workflow, where we capture information, just 
 ><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" width="20" style="vertical-align:text-bottom;">An **agentic workflow** with AI refers to a system where an AI agent is empowered to make decisions, take actions, and pursue goals across multiple steps—often autonomously. Unlike a single API call or a static prompt, agentic workflows involve **planning, reasoning, tool use**, and possibly interacting with other agents or services. These agents maintain **state**, adjust behavior based on feedback, and operate in loops (like ReAct or AutoGPT). The goal is to replicate more human-like problem solving, where the AI isn't just responding, but actively **working through a task**. This is especially useful in AIOps, automation, and multi-step orchestration.
 
 In this case we have a static workflow versus a fully agentic workflow, but unlike just a static LLM query, we are giving inputs from multiple sources, the event, the observability tool, system logs, and an Ansible Playbook running on the host to reterive any additional info. In the future you will see increasibly more and more ability for the operations team to allow AI tools the ability to act more autonomously.
+
+<h3 id="2-red-hat-ai-analyze-incident"></h3>
 
 ### 2. Red Hat AI: Analyze Incident
 
@@ -357,6 +401,7 @@ Here is an ansible Ansible task for inference to Red Hat AI:
 
 > <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" width="20" style="vertical-align:text-bottom;"> Could I bring my own AI? Absolutely, since so many tools on the market use an OpenAI compatible API, you can use the same playbooks (or the task example above) to interface with the AI of your choice.
 
+<h4 id="tools-that-support-the-openai-compatible-api"></h4>
 
 #### Tools That Support the OpenAI-Compatible API
 
@@ -372,32 +417,42 @@ Here is an ansible Ansible task for inference to Red Hat AI:
 | **Replicate**            | Platform for hosting ML models with optional OpenAI-style API access                          |
 | **Anyscale**             | Provides OpenAI-compatible APIs for hosted open models with high performance                 |
 
+<h3 id="3-notify-chat--itsm"></h3>
 
 ### 3. Notify Chat / ITSM
 
+
 This is where we synchronize the output from Red Hat AI to another outside system.  Here some great options:
+
+<h4 id="mattermost"></h4>
 
 #### Mattermost
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/matter_most_logo.svg?raw=true">
+<img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/matter_most_logo.svg">
 
 <a target="_blank" href="https://docs.ansible.com/ansible/latest/collections/community/general/mattermost_module.html">Mattermost Documentation</a>
 
 **Mattermost** is an open-source, self-hostable chat and collaboration platform designed for secure team communication. In AIOps workflows, it’s a powerful tool for surfacing alerts, AI-generated insights, and automated remediation steps in real time—acting as a centralized command and control interface. Unlike Slack, Mattermost is free to use and gives you full control over deployment, integrations, and data privacy. It supports robust API and webhook integrations, making it easy to connect with automation tools like Ansible or event-driven systems. This makes it a great choice for teams building transparent, automated operations workflows.  We use it in the AIOps workshop as an example similar to Slack or Microsoft Teams.
 
+<h4 id="servicenow"></h4>
+
 #### ServiceNow
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/servicenow-logo.png?raw=true">
+<img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/servicenow-logo.png">
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/servicenow/itsm/">ServicenNow on Automation hub</a>
 
 ServiceNow is an enterprise-grade **IT Service Management (ITSM)** platform designed to manage and automate IT operations, workflows, and service delivery—not a chat tool. In AIOps workflows, ServiceNow acts as the system of record for incidents, changes, and problem management, often triggered or enriched by AI-driven insights. It excels at ticketing, approvals, asset management, and ensuring IT compliance across organizations. Unlike chat apps, ServiceNow is built for structured workflows, automation, and integrations with tools like monitoring systems, CMDBs, and Ansible Automation Platform. It plays a critical role in closing the loop between detection, diagnosis, and resolution in modern IT operations.
 
+<h4 id="slack"></h4>
+
 #### Slack
 
-<img width="200" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/slack_logo.png?raw=true">
+<img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/slack_logo.png">
 
 Slack is a widely adopted enterprise messaging and collaboration platform known for its polished user experience, robust integrations, and strong support ecosystem. In AIOps workflows, Slack is often used as a real-time communication hub where AI-driven alerts, diagnostics, and automation updates can be delivered directly to teams. It offers enterprise-grade features like identity management, compliance tools, and 24/7 support, making it a reliable choice for regulated and large-scale environments. Its rich API and app ecosystem allow seamless integration with platforms like ServiceNow, Ansible, and monitoring tools. While it's a paid solution, many organizations value its scalability, reliability, and enterprise-level support.
+
+<h3 id="4-build-ansible-lightspeed-job-template"></h3>
 
 ### 4. Build Ansible Lightspeed Job Template
 
@@ -405,7 +460,7 @@ The final piece of this workflow is creating (or updating) a Ansible Automation 
 
 We have a problem, such as an application outage, and we now have a solution: for example: "there is a mis-configuration on this line" and now we can use this information we gleaned and now prompt Ansible Lightspeed in the next workflow, the **Remediation workflow**.  We are basically using one AI endpoint (Red Hat AI) to help create a prompt to a second AI endpoint (Ansible Lightspeed) to create an Ansible Playbook to help remediate the issue.
 
-<img src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/workflow_prompt.png?raw=true">
+<img src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/workflow_prompt.png">
 
 A way to do this (an opinionated way, but not the only way) is to use an <a target="_blank" href="https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/latest/html-single/using_automation_execution/index#controller-surveys-in-job-templates">Ansible Survey</a>.
 
@@ -469,18 +524,22 @@ Now everytime the first workflow **Log Enrichment and Prompt Generation Workflow
 
 Please consider using the <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/validated/infra/aap_configuration/">AAP Configuration Collection on Automation hub.</a> This content collection simplifies interactions for Ansible Automation Platform.
 
+<h2 id="3-remediation-workflow"></h2>
+
 ## 3. Remediation Workflow
 
 The third part of the AIOps workflow is the **Remediation Workflow**.  This workflow will take a prompt from the previous workflow, allow the human operator to customize this prompt, then build an Ansible Playbook to remediate the issue, sync this to git and build a job template that will run this playbook for the final step.
 
  Here is a breakdown of the four main componenets:
 
-<img src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/remediation_workflow.png?raw=true">
+<img src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/remediation_workflow.png">
 
 1. Lightspeed Remedation Playbook Generator
 2. Commit Fix to Git
 3. Sync Project
 4. Build Remedation Template
+
+<h3 id="1-lightspeed-remedation-playbook-generator"></h3>
 
 ### 1. Lightspeed Remedation Playbook Generator
 
@@ -502,7 +561,9 @@ Ansible Lightspeed also has an API.  We can communicate to this API similarly as
 
 The API will respond with the Ansible Playbook as part of the payload under the `playbook` keyword.  You can see the response in the Job Output window:
 
-<img src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/return_playbook.png?raw=true">
+<img src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/return_playbook.png">
+
+<h3 id="2-commit-fix-to-git"></h3>
 
 ### 2. Commit Fix to Git
 
@@ -517,11 +578,15 @@ Here is an excerpt from our AIOps Workshop:
         token: "{{ gitea_token }}"
 ```
 
+<h3 id="3-sync-project"></h3>
+
 ### 3. Sync Project
 
 This is a special node type inside the Workflow Visualizer that will sync a Project.  Since we just pushed this Ansible Playbook to Git we need to sync the Project to update and retrieve this playbook to be used in an Ansible Job Template.  Here is a screen shot from the Workflow visualizer showing the **Project Sync**:
 
-<img src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/workflow_node_type.png?raw=true">
+<img src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/workflow_node_type.png">
+
+<h3 id="4-build-remedation-template"></h3>
 
 ### 4. Build Remedation Template
 
@@ -544,10 +609,13 @@ The final job template inside this workflow is creating a new job template with 
 
 > <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" width="20" style="vertical-align:text-bottom;"> Could we just run the new playbook within this workflow and fixed it right now? YES, but you may want to run the playbook during a specific change window.  This is another natural breakpoint where you can add more guard rails before you push an Ansible job into production.  Now that you have the Job Template queued up, you can run it whenever you want.
 
+<h2 id="4-execute-remediation"></h2>
 
 ## 4. Execute Remediation
 
 The final Job Template that fixes the issue
+
+<h3 id="policy-enforcement"></h3>
 
 ### Policy Enforcement
 
@@ -557,4 +625,4 @@ The final Job Template that fixes the issue
 
 ---
 
-<img width="400" src="https://github.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/blob/main/solution_images/aap_logo.png?raw=true">
+<img width="400" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/aap_logo.png">
