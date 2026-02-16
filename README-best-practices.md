@@ -23,6 +23,7 @@ A framework for creating enterprise-grade solution guides for Ansible Automation
 - [5. Validation and Sanity Check](#5-validation-and-sanity-check)
   - [5.1 The Test](#51-the-test)
   - [5.2 Expected Result](#52-expected-result)
+  - [5.3 Troubleshooting Common Failures](#53-troubleshooting-common-failures)
 - [6. Business Reinforcement and Maturity Path](#6-business-reinforcement-and-maturity-path)
   - [6.1 ROI Recap](#61-roi-recap)
   - [6.2 Crawl, Walk, Run](#62-crawl-walk-run)
@@ -58,11 +59,19 @@ Solution guides published on access.redhat.com follow the convention `[Topic] - 
 
 > When in doubt, use the `[Topic] - Solution Guide` format for the KB article title, but lead the guide itself with an outcome-oriented subtitle or problem statement in the opening section.
 
+**Solution vs. Tutorial:** A solution guide must solve an operational problem, not teach how to use a tool. If your guide could be titled "Getting started with X" or "How to use Y," it is a tutorial, not a solution. Reframe it around the outcome: what real-world problem does this automation solve?
+
+| Type | Example Title | Verdict |
+|------|--------------|---------|
+| Tutorial | "Get started with EDA (Ansible Rulebook)" | Not a solution guide -- teaches a tool |
+| Solution | "Responding to Infrastructure Alerts with Event-Driven Ansible" | Solves a real operational problem |
+
 **Checklist:**
 
 - [ ] Does the title describe a business or operational outcome?
 - [ ] Does the title follow the `[Topic] - Solution Guide` convention for KB publishing?
 - [ ] Would a VP of IT understand the value without knowing Ansible?
+- [ ] Does the guide solve a real operational problem (not just teach a tool)?
 
 ---
 
@@ -161,11 +170,33 @@ This must show causality.
 
 ### 3.1 Workflow Diagram
 
-Simple. Clean. 3-6 blocks max.
+Simple. Clean. 3-6 blocks max. Every guide must have at least one diagram. Choose the pattern that matches your guide type:
+
+**Event-driven (EDA) pattern:**
 
 ```
-Event → EDA Rule → Playbook → API Call → Result
+Alert → EDA Rulebook → Job Template → API Call → Resolution
 ```
+
+**Provisioning / Day 1 pattern:**
+
+```
+Request → Survey/Vars → Workflow Template → Provision → Validate → Notify
+```
+
+**Day 2 operations pattern:**
+
+```
+Schedule/Trigger → Fact Gather → Analyze/Compare → Remediate → Report
+```
+
+**Integration pattern:**
+
+```
+External Event (ITSM/Webhook) → Controller API → Playbook → Update Source System
+```
+
+> **Tip:** If your guide doesn't fit any of these patterns, draw your own -- but if you can't draw it in 3-6 blocks, the workflow may be too complex for a single guide. Consider splitting.
 
 ### 3.2 Narrative Walkthrough
 
@@ -275,33 +306,95 @@ Show:
 - Credentials mapping
 - RBAC notes
 
-No vague instructions like "Create a job template." Be explicit.
+No vague instructions like "Create a job template." Be explicit. Here is the minimum level of detail expected:
+
+**Example -- Job Template configuration:**
+
+| Field | Value |
+|-------|-------|
+| **Name** | `ServiceNow Ticket Enrichment` |
+| **Inventory** | `ServiceNow Hosts` |
+| **Project** | `ITSM Automation` |
+| **Playbook** | `enrich_ticket.yml` |
+| **Credentials** | `ServiceNow API Token`, `Machine Credential` |
+| **Extra Variables** | `incident_number` (prompt on launch) |
+| **Verbosity** | 1 (Verbose) |
+
+**Example -- Credential mapping:**
+
+> Use a **Custom Credential Type** for third-party API tokens. Inject them as extra variables or environment variables -- never hardcode secrets in playbooks. See [Creating Custom Credential Types](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/) in the AAP documentation.
+
+**Example -- RBAC note:**
+
+> Assign the `Execute` role on this Job Template to the `ops-tier1` team. The `Admin` role should be limited to the automation architect team to prevent accidental template modification.
 
 ---
 
 ## 5. Validation and Sanity Check
 
-This is mandatory.
+This is mandatory. Validation was the most inconsistent section across existing guides -- many omit it entirely. A guide without a validation step is a guide that cannot be trusted.
 
 ### 5.1 The Test
 
-- Trigger a webhook
-- Run a test job
-- Submit a dummy ticket
+Define a concrete, repeatable test. Not a vague suggestion -- an actual command or action the reader can execute.
+
+**Good example (API test):**
+
+```bash
+curl -sk https://controller.example.com/api/v2/job_templates/42/launch/ \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"extra_vars": {"incident_number": "INC0012345"}}' | jq .status
+```
+
+**Good example (EDA test):**
+
+> Send a test event to the webhook endpoint:
+>
+> ```bash
+> curl -H "Content-Type: application/json" \
+>   -d '{"alert": "high_cpu", "host": "web01.example.com"}' \
+>   http://eda.example.com:5000/endpoint
+> ```
+
+**Good example (manual trigger):**
+
+> Navigate to **Resources → Templates → [Template Name]** in the AAP Controller UI. Click **Launch** and provide the survey values when prompted.
 
 ### 5.2 Expected Result
 
-Show:
+Show the actual output the reader should expect. Do not describe it in prose -- show it.
 
-- Console output snippet
-- UI success indicator
-- Ticket state change
+**Good example (console output):**
+
+```
+PLAY RECAP *********************************************************************
+servicenow_host : ok=4    changed=2    unreachable=0    failed=0    skipped=0
+```
+
+**Good example (state change):**
+
+> After the playbook completes, the ServiceNow incident should show:
+> - **State:** In Progress
+> - **Work Notes:** Contains the AI-generated summary
+> - **Assignment Group:** Updated to the correct tier
+
+### 5.3 Troubleshooting Common Failures
+
+Include at least 2-3 common failure scenarios and how to diagnose them:
+
+| Symptom | Likely Cause | Fix |
+|---------|-------------|-----|
+| `401 Unauthorized` | Expired or invalid API token | Regenerate the token and update the credential in AAP |
+| Playbook hangs at "Gathering Facts" | Target host unreachable | Verify network connectivity and SSH/WinRM access |
+| EDA rulebook doesn't fire | Event payload doesn't match condition | Check rulebook condition syntax against the actual event JSON |
 
 **Checklist:**
 
-- [ ] Is there a clear test?
-- [ ] Is there a clear expected output?
-- [ ] Can failure be diagnosed?
+- [ ] Is there a concrete, executable test (not just "run the playbook")?
+- [ ] Is the expected output shown verbatim (not just described)?
+- [ ] Are at least 2-3 common failure scenarios documented?
+- [ ] Can failure be diagnosed from the information provided?
 
 ---
 
@@ -384,6 +477,20 @@ A truly excellent solution guide:
 - Has clear operational outcome
 - Maps to maturity progression
 - Could be used by a field seller as enablement
+
+### Minimum Depth Standard
+
+A guide that passes the checklist on paper can still fail in practice if it lacks depth. Use this rule of thumb:
+
+| Indicator | Minimum | Ideal |
+|-----------|---------|-------|
+| Solution walkthrough steps | 3 | 5-8 |
+| YAML code blocks | 2 | 4-6 |
+| Total guide length | ~800 words | 1500-2500 words |
+| Diagrams | 1 | 2-3 |
+| Validation scenarios | 1 | 2-3 (including failure cases) |
+
+> **Warning:** If your guide has fewer than 3 walkthrough steps or fewer than 2 code blocks, it is likely too thin. Either expand the scope or merge it with a related guide. The Network Fact Gathering guide is an example of a guide that would benefit from merging with its companion guide due to insufficient standalone depth.
 
 ---
 
@@ -481,15 +588,27 @@ Organizations spend X hours manually performing Y, leading to Z risk. This guide
 
 ### Test
 
-<!-- Describe how to trigger and test the automation. -->
+<!-- Provide a concrete, executable test -- an actual command or UI action, not just "run the playbook." -->
+
+```bash
+# Example: curl, ansible-playbook CLI, or AAP API call
+```
 
 ### Expected Result
 
-<!-- Show expected console output, UI indicator, or state change. -->
+<!-- Show the actual expected output verbatim. -->
 
 ```
-[Expected output here]
+PLAY RECAP *********************************************************************
+target_host : ok=X    changed=X    unreachable=0    failed=0    skipped=0
 ```
+
+### Troubleshooting
+
+| Symptom | Likely Cause | Fix |
+|---------|-------------|-----|
+| [Error message or behavior] | [Root cause] | [Resolution steps] |
+| [Error message or behavior] | [Root cause] | [Resolution steps] |
 
 ## Business Reinforcement
 
