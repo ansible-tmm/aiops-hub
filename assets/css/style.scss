@@ -91,6 +91,57 @@ blockquote {
     font-style: normal;
 }
 
+// tighten spacing between bold labels and lists
+p + ul, p + ol {
+  margin-top: -12px;
+}
+
+// collapsible sections
+details {
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0;
+}
+
+details summary {
+  font-family: 'Red Hat Display', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 12px 16px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  list-style: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary::before {
+  content: "\f054";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 12px;
+  margin-right: 10px;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+details[open] summary {
+  border-bottom: 1px solid #ddd;
+  border-radius: 4px 4px 0 0;
+}
+
+details > *:not(summary) {
+  padding: 0 16px;
+}
+
 // Centre images using ?style=centreme
 img[src*="#centreme"] {
   display: block;

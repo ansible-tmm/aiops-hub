@@ -8,33 +8,30 @@ A framework for creating enterprise-grade solution guides for Ansible Automation
 > Copy the ready-made skeleton, fill in the placeholders, and score your draft against the [Quality Scoring Rubric](#quality-scoring-rubric) before publishing.
 
 - [0. Title Standard (Non-Negotiable)](#0-title-standard-non-negotiable)
-- [1. The Executive Hook (Strategic Framing)](#1-the-executive-hook-strategic-framing)
-  - [1.1 The Problem Statement (2-4 sentences max)](#11-the-problem-statement-2-4-sentences-max)
-  - [1.2 Who Benefits (Persona Mapping)](#12-who-benefits-persona-mapping)
-- [2. Scope and Production Considerations (Expectation Setting)](#2-scope-and-production-considerations-expectation-setting)
+- [1. The Executive Hook](#1-the-executive-hook)
+  - [1.1 The Problem Statement](#11-the-problem-statement)
+  - [1.2 Who Benefits](#12-who-benefits)
+- [2. Scope and Production Considerations](#2-scope-and-production-considerations)
   - [2.1 Impact Rating](#21-impact-rating)
   - [2.2 Prerequisites](#22-prerequisites)
   - [2.3 Cost and Resource Notes](#23-cost-and-resource-notes)
   - [2.4 KB Article Metadata](#24-kb-article-metadata)
-- [3. Architecture and Workflow (The "Aha" Layer)](#3-architecture-and-workflow-the-aha-layer)
+- [3. Architecture and Workflow](#3-architecture-and-workflow)
   - [3.1 Workflow Diagram](#31-workflow-diagram)
   - [3.2 Narrative Walkthrough](#32-narrative-walkthrough)
   - [3.3 Visual Design Patterns](#33-visual-design-patterns)
-- [4. Technical Core (The Executable Proof)](#4-technical-core-the-executable-proof)
+- [4. Technical Core](#4-technical-core)
   - [4.1 Foundation Setup](#41-foundation-setup)
-  - [4.2 Featured Code (Critical Section)](#42-featured-code-critical-section)
+  - [4.2 Featured Code](#42-featured-code)
   - [4.3 AAP Integration](#43-aap-integration)
-- [5. Validation and Sanity Check](#5-validation-and-sanity-check)
+- [5. Validation](#5-validation)
   - [5.1 The Test](#51-the-test)
   - [5.2 Expected Result](#52-expected-result)
   - [5.3 Troubleshooting Common Failures](#53-troubleshooting-common-failures)
-- [6. Business Reinforcement and Maturity Path](#6-business-reinforcement-and-maturity-path)
+- [6. Business Reinforcement](#6-business-reinforcement)
   - [6.1 ROI Recap](#61-roi-recap)
   - [6.2 Crawl, Walk, Run](#62-crawl-walk-run)
   - [6.3 Next Steps and Cross-Linking](#63-next-steps-and-cross-linking)
-- [Quality Scoring Rubric](#quality-scoring-rubric)
-- [Common Failure Modes (What to Ban)](#common-failure-modes-what-to-ban)
-- [What Makes a Guide "Elite"](#what-makes-a-guide-elite)
 - [Appendix: Starter Template](#appendix-starter-template)
 
 ---
@@ -75,14 +72,13 @@ Solution guides published on access.redhat.com follow the convention `[Topic] - 
 
 ---
 
-## 1. The Executive Hook (Strategic Framing)
+## 1. The Executive Hook
 
-This section must be readable by a decision maker.
+Frame the guide strategically so it is readable by a decision maker, not just a practitioner.
 
-### 1.1 The Problem Statement (2-4 sentences max)
+### 1.1 The Problem Statement
 
-- Define the operational pain.
-- Quantify if possible (time, cost, risk, compliance).
+Define the operational pain in 2-4 sentences max. Quantify if possible (time, cost, risk, compliance).
 
 **Example format:**
 
@@ -90,7 +86,7 @@ This section must be readable by a decision maker.
 >
 > Organizations spend X hours manually performing Y, leading to Z risk. This guide demonstrates how to automate this workflow using AAP to reduce effort by X% and improve consistency.
 
-### 1.2 Who Benefits (Persona Mapping)
+### 1.2 Who Benefits
 
 | Persona | What They Gain |
 |---------|---------------|
@@ -100,15 +96,15 @@ This section must be readable by a decision maker.
 
 ---
 
-## 2. Scope and Production Considerations (Expectation Setting)
+## 2. Scope and Production Considerations
 
-This is where many solution guides fail.
+Set expectations early. This is where many solution guides fail -- the reader needs to know what they are getting into before they start.
 
 ### 2.1 Impact Rating
 
 - **Low** — safe, read-only
 - **Medium** — config change, reversible
-- **High** — production mutation, requires CAB
+- **High** — production mutation, requires Change Advisory Board (CAB)
 
 ### 2.2 Prerequisites
 
@@ -147,9 +143,9 @@ For reference, the impact levels:
 
 ---
 
-## 3. Architecture and Workflow (The "Aha" Layer)
+## 3. Architecture and Workflow
 
-This must show causality.
+This is the "aha" layer -- it must show causality so the reader understands the end-to-end flow before diving into code.
 
 ### 3.1 Workflow Diagram
 
@@ -207,25 +203,19 @@ Use the right visual format for the right purpose:
 | **Screenshots** | Show AAP UI configuration (Job Templates, Workflows) | Workflow Visualizer, Survey setup |
 | **Callout boxes** | Highlight tips, warnings, and context | Blockquotes with tip/warning prefix |
 
-**Callout conventions:**
+**Callout conventions:** Use blockquotes for tips, warnings, and contextual notes. Keep a consistent style across all guides:
 
-Use blockquotes for tips, warnings, and contextual notes. Keep a consistent style across all guides:
-
-> **Tip:** Use for helpful context, shortcuts, or "did you know" information.
-
-> **Why [tool]?** Use for explaining tool choices and alternatives.
-
-> **Warning:** Use for production-impact notes or common mistakes.
-
-**Inline logos and branding:**
+- **Tip:** -- Helpful context, shortcuts, or "did you know" information.
+- **Why [tool]?** -- Explaining tool choices and alternatives.
+- **Warning:** -- Production-impact notes or common mistakes.
 
 When referencing third-party tools (Kafka, Splunk, ServiceNow, etc.), include their logo image inline where it aids scannability. Keep logos to a consistent width (e.g., 200px) and link to the relevant Automation Hub page.
 
 ---
 
-## 4. Technical Core (The Executable Proof)
+## 4. Technical Core
 
-This is where credibility is built.
+This is where credibility is built -- the executable proof that the automation works. Keep it focused and accessible so anyone can follow along.
 
 ### 4.1 Foundation Setup
 
@@ -244,9 +234,9 @@ Only include:
 
 No fluff.
 
-### 4.2 Featured Code (Critical Section)
+### 4.2 Featured Code
 
-Do **NOT** dump the full repo. Show:
+Do **NOT** dump the full repo. Show the critical pieces:
 
 - The key task
 - The logic block
@@ -263,9 +253,7 @@ Do **NOT** dump the full repo. Show:
     work_notes: "{{ ai_summary }}"
 ```
 
-Then link to the full source:
-
-> Full source available at: `github.com/your-org/solution-guide-x`
+Then link to the full source: `github.com/your-org/solution-guide-x`
 
 ### 4.3 AAP Integration
 
@@ -304,9 +292,9 @@ No vague instructions like "Create a job template." Be explicit. Here is the min
 
 ---
 
-## 5. Validation and Sanity Check
+## 5. Validation
 
-This is mandatory. Validation was the most inconsistent section across existing guides -- many omit it entirely. A guide without a validation step is a guide that cannot be trusted.
+This is mandatory -- a guide without a validation step is a guide that cannot be trusted. Validation was the most inconsistent section across existing guides, and many omit it entirely.
 
 ### 5.1 The Test
 
@@ -367,13 +355,15 @@ Include at least 2-3 common failure scenarios and how to diagnose them:
 
 ---
 
-## 6. Business Reinforcement and Maturity Path
+## 6. Business Reinforcement
 
-This prevents it from being "just a lab."
+Close the loop so the guide is more than just a lab exercise. Reinforce the business value and show where to go next.
 
 ### 6.1 ROI Recap
 
-> You now have automated X, reducing manual effort and improving consistency.
+> **Completed:** The solution guide is done.
+>
+> You now have automated X, reducing manual effort and improving consistency. Summarize the measurable outcome the reader has achieved.
 
 ### 6.2 Crawl, Walk, Run
 
@@ -400,7 +390,8 @@ Every guide exists within a broader ecosystem. Authors must identify and link to
 
 ---
 
-## Quality Scoring Rubric
+<details>
+<summary>Quality Scoring Rubric</summary>
 
 Grade guides against this rubric before publishing:
 
@@ -415,9 +406,12 @@ Grade guides against this rubric before publishing:
 
 Score each 1-5. Anything below 3 in any category — revise before publish.
 
----
+</details>
 
-## Common Failure Modes (What to Ban)
+<details>
+<summary>Common Failure Modes</summary>
+
+Reject guides that exhibit any of these patterns:
 
 - "Overview Only" guides with no code
 - Screenshot-heavy, YAML-light content
@@ -427,9 +421,10 @@ Score each 1-5. Anything below 3 in any category — revise before publish.
 - No persona/value framing
 - No GitHub repo
 
----
+</details>
 
-## What Makes a Guide "Elite"
+<details>
+<summary>What Makes a Guide "Elite"</summary>
 
 A truly excellent solution guide:
 
@@ -440,9 +435,7 @@ A truly excellent solution guide:
 - Maps to maturity progression
 - Could be used by a field seller as enablement
 
-### Minimum Depth Standard
-
-A guide that covers every section can still fail in practice if it lacks depth. Use this rule of thumb:
+**Minimum Depth Standard:** A guide that covers every section can still fail in practice if it lacks depth.
 
 | Indicator | Minimum | Ideal |
 |-----------|---------|-------|
@@ -454,7 +447,9 @@ A guide that covers every section can still fail in practice if it lacks depth. 
 
 > **Warning:** Your guide may be too thin.
 >
-> If it has fewer than 3 walkthrough steps or fewer than 2 code blocks, either expand the scope or merge it with a related guide. The Network Fact Gathering guide is an example that would benefit from merging with its companion due to insufficient standalone depth.
+> If it has fewer than 3 walkthrough steps or fewer than 2 code blocks, either expand the scope or merge it with a related guide.
+
+</details>
 
 ---
 
@@ -564,6 +559,8 @@ target_host : ok=X    changed=X    unreachable=0    failed=0    skipped=0
 
 ### ROI Recap
 
+> **Completed:** The solution guide is done.
+>
 > You now have automated [X], reducing manual effort by [Y] and improving [Z].
 
 ### Maturity Path
