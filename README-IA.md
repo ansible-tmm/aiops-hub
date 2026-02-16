@@ -2,6 +2,8 @@
 # AI Infrastructure Automation with Ansible – Solution Guide
 
 > **Knowledge Base Article**: [https://access.redhat.com/articles/7118390](https://access.redhat.com/articles/7118390)
+>
+> While this Solution Guide can be found on the customer portal, this document is the source of truth.
 
 <style>
   div#toc {
@@ -11,30 +13,32 @@
 
 ## Table of Contents
 
-- [Background](#background)
-- [What this solution automates](#what-this-solution-automates)
-- [Solution Overview](#solution-overview)
-  - [Components](#components)
-- [How to download these Collections](#how-to-download-these-collections)
-- [AWS AMI Setup for RHEL AI](#aws-ami-setup-for-rhel-ai)
-  - [Option 1: Subscribe via AWS Marketplace](#option-1-subscribe-via-aws-marketplace)
-  - [Option 2: Create Your Own AMI](#option-2-create-your-own-ami)
-- [Setting up the inventory](#setting-up-the-inventory)
-  - [Option 1: CLI-Based Inventory](#option-1-cli-based-inventory)
-  - [Option 2: Inventory sync in Ansible Automation Platform](#option-2-inventory-sync-in-ansible-automation-platform)
-- [Visualizing the workflow in Ansible Automation Platform](#visualizing-the-workflow-in-ansible-automation-platform)
-- [Included playbooks](#included-playbooks)
-  - [1. provision.yml (`infra.ai`)](#1-provisionyml-infraai)
-  - [2. ilab.yml (`redhat.ai`)](#2-ilabyml-redhatai)
-- [Model selection and usage](#model-selection-and-usage)
-- [Pulling sample vars and playbook files](#pulling-sample-vars-and-playbook-files)
-- [Variable configuration](#variable-configuration)
-- [Validating model deployment](#validating-model-deployment)
-  - [Option 1: Using curl](#option-1-using-curl)
-  - [Option 2: Using Ansible](#option-2-using-ansible)
-- [Integration with Ansible Lightspeed](#integration-with-ansible-lightspeed)
-- [Final Notes](#final-notes)
-- [Sources](#sources)
+- [AI Infrastructure Automation with Ansible – Solution Guide](#ai-infrastructure-automation-with-ansible--solution-guide)
+  - [Table of Contents](#table-of-contents)
+  - [Background](#background)
+  - [What this solution automates?](#what-this-solution-automates)
+  - [Solution Overview](#solution-overview)
+    - [Components](#components)
+  - [How to download these Collections](#how-to-download-these-collections)
+  - [AWS AMI Setup for RHEL AI](#aws-ami-setup-for-rhel-ai)
+    - [Option 1: Subscribe via AWS Marketplace](#option-1-subscribe-via-aws-marketplace)
+    - [Option 2: Create Your Own AMI](#option-2-create-your-own-ami)
+  - [Setting up the inventory](#setting-up-the-inventory)
+    - [Option 1: CLI-Based Inventory](#option-1-cli-based-inventory)
+    - [Option 2: Inventory sync in Ansible Automation Platform](#option-2-inventory-sync-in-ansible-automation-platform)
+  - [Visualizing the workflow in Ansible Automation Platform](#visualizing-the-workflow-in-ansible-automation-platform)
+  - [Included playbooks](#included-playbooks)
+    - [1. provision.yml (`infra.ai`)](#1-provisionyml-infraai)
+    - [2. ilab.yml (`redhat.ai`)](#2-ilabyml-redhatai)
+  - [Model selection and usage](#model-selection-and-usage)
+  - [Pulling sample vars and playbook files](#pulling-sample-vars-and-playbook-files)
+  - [Variable configuration](#variable-configuration)
+  - [Validating model deployment](#validating-model-deployment)
+    - [Option 1: Using curl](#option-1-using-curl)
+    - [Option 2: Using Ansible](#option-2-using-ansible)
+  - [Integration with Ansible Lightspeed](#integration-with-ansible-lightspeed)
+  - [Final Notes](#final-notes)
+  - [Sources](#sources)
 
 <h2 id="background"></h2>
 ## Background

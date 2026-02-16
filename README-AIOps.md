@@ -2,6 +2,8 @@
 # AIOps automation with Ansible - Solution Guide <!-- omit in toc -->
 
 > **Knowledge Base Article**: [https://access.redhat.com/articles/7119667](https://access.redhat.com/articles/7119667)
+>
+> While this Solution Guide can be found on the customer portal, this document is the source of truth.
 
 <style>
   div#toc {
@@ -24,8 +26,8 @@
   - [Example Walkthrough for EDA Reponse](#example-walkthrough-for-eda-reponse)
   - [1. **IT infrastrucure event**:](#1-it-infrastrucure-event)
     - [ Application-Level Events](#-application-level-events)
-    - [ Infrastructure \& Platform Events](#-infrastructure--platform-events)
-    - [ Network \& Security Events](#-network--security-events)
+    - [ Infrastructure & Platform Events](#-infrastructure--platform-events)
+    - [ Network & Security Events](#-network--security-events)
     - [Observability-Driven Triggers](#observability-driven-triggers)
   - [2. **Observability tool picks up event**:](#2-observability-tool-picks-up-event)
     - [Filebeat](#filebeat)
