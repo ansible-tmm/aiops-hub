@@ -390,7 +390,7 @@ Every guide exists within a broader ecosystem. Authors must identify and link to
 
 ---
 
-<details>
+<details markdown="1">
 <summary>Quality Scoring Rubric</summary>
 
 Grade guides against this rubric before publishing:
@@ -408,7 +408,7 @@ Score each 1-5. Anything below 3 in any category — revise before publish.
 
 </details>
 
-<details>
+<details markdown="1">
 <summary>Common Failure Modes</summary>
 
 Reject guides that exhibit any of these patterns:
@@ -423,7 +423,7 @@ Reject guides that exhibit any of these patterns:
 
 </details>
 
-<details>
+<details markdown="1">
 <summary>What Makes a Guide "Elite"</summary>
 
 A truly excellent solution guide:
