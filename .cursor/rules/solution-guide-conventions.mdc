@@ -1,0 +1,74 @@
+---
+description: Conventions for writing and reviewing solution guides, markdown formatting, and KB article scoring in this repository.
+alwaysApply: true
+---
+
+# Solution Guide Conventions
+
+This repository contains Ansible Automation Platform solution guides published as markdown files and rendered via GitHub Pages with Jekyll.
+
+## Markdown Blockquote Formatting
+
+Blockquotes must use a short first line (under 12 words) followed by a blank quote line, then the detail text. This renders correctly with the site CSS which styles the first line as a colored header bar.
+
+```markdown
+# Bad -- long first line wraps ugly in the rendered CSS
+> **Warning:** If your guide has fewer than 3 walkthrough steps or fewer than 2 code blocks, it is likely too thin and should be expanded or merged.
+
+# Good -- short label, details below
+> **Warning:** Your guide may be too thin.
+>
+> If it has fewer than 3 walkthrough steps or fewer than 2 code blocks, either expand the scope or merge it with a related guide.
+```
+
+Accepted label prefixes: `**Tip:**`, `**Warning:**`, `**Why [tool]?:**`, `**Example ...**`, `**RBAC:**`, or any short bold descriptor.
+
+## Solution Guide Structure
+
+All solution guides must follow the framework in `README-best-practices.md`. Key non-negotiables:
+
+- **Title**: `[Topic] - Solution Guide` format. Must describe an operational outcome, not a product feature.
+- **Solution not tutorial**: If it could be titled "Getting started with X," reframe it around the problem it solves.
+- **Starter template**: New guides should copy the skeleton from the Appendix of `README-best-practices.md`.
+- **Minimum depth**: At least 3 walkthrough steps, 2 YAML code blocks, 1 diagram, ~800 words.
+- **Validation section is mandatory**: Include a concrete test command, verbatim expected output, and a troubleshooting table.
+- **Automation Hub links**: Every Ansible collection referenced must link to its Automation Hub page.
+- **KB article link**: Include the `access.redhat.com` article link in a blockquote directly under the title.
+
+## Scoring and Reviewing Guides
+
+When reviewing or grading solution guides, use the weighted rubric from `README-best-practices.md`:
+
+| Category | Weight |
+|----------|--------|
+| Outcome Clarity | 20% |
+| Architecture Clarity | 20% |
+| Technical Executability | 25% |
+| Validation/Testability | 15% |
+| Production Readiness Info | 10% |
+| Business Framing | 10% |
+
+Score each category 1-5. Multiply by weight for a final score out of 10. Any category below 3 means revise before publishing.
+
+When writing a review:
+1. List **Strengths** (what the guide does well).
+2. List **Weaknesses** (specific gaps, not vague complaints).
+3. List **Suggestions** (actionable improvements with examples).
+4. Provide an overall score and a one-line verdict.
+5. If reconciling with another reviewer, document the reasoning for any score changes.
+
+Reviews are stored in `opus-review.md` with a scorecard table at the top.
+
+## Jekyll and GitHub Pages
+
+- Layout: `_layouts/default.html` (includes nav header, footer, Prism.js syntax highlighting, copy-to-clipboard on code blocks, and the Konami code Easter egg).
+- Styles: `assets/css/style.scss` (extends the `jekyll-theme-dinky` base theme with Red Hat branding).
+- Config: `_config.yml` controls excludes and theme settings.
+- Files excluded in `_config.yml` are not rendered on GitHub Pages. If a markdown file should be publicly accessible, ensure it is not in the exclude list.
+
+## File Naming
+
+- Solution guides: `README-[topic].md` (e.g., `README-AIOps.md`, `README-IA.md`)
+- Main entry point: `README.md` (table of contents only)
+- Best practices: `README-best-practices.md`
+- Reviews: `opus-review.md`

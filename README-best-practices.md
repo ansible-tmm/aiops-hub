@@ -3,6 +3,10 @@
 
 A framework for creating enterprise-grade solution guides for Ansible Automation Platform.
 
+> **Quick start:** Jump to the [Starter Template](#appendix-starter-template).
+>
+> Copy the ready-made skeleton, fill in the placeholders, and use the checklists throughout this guide to validate your work before publishing.
+
 - [0. Title Standard (Non-Negotiable)](#0-title-standard-non-negotiable)
 - [1. The Executive Hook (Strategic Framing)](#1-the-executive-hook-strategic-framing)
   - [1.1 The Problem Statement (2-4 sentences max)](#11-the-problem-statement-2-4-sentences-max)
