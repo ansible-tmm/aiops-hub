@@ -5,7 +5,21 @@ A framework for creating enterprise-grade solution guides for Ansible Automation
 
 > **Quick start:** Jump to the [Starter Template](#appendix-starter-template).
 >
-> Copy the ready-made skeleton, fill in the placeholders, and score your draft against the [Quality Scoring Rubric](#quality-scoring-rubric) before publishing.
+> Copy the ready-made skeleton, fill in the placeholders, and score your draft against the [Quality Scoring Rubric](#reference) before publishing.
+
+### The Framework at a Glance <!-- omit in toc -->
+
+| Step | Section | What It Covers |
+|------|---------|---------------|
+| 0 | [Title Standard](#0-title-standard-non-negotiable) | Outcome-oriented naming convention |
+| 1 | [Executive Hook](#1-the-executive-hook) | Problem statement and persona mapping |
+| 2 | [Scope and Production](#2-scope-and-production-considerations) | Impact rating, prerequisites, KB metadata |
+| 3 | [Architecture and Workflow](#3-architecture-and-workflow) | Diagrams, narrative walkthrough, visual patterns |
+| 4 | [Technical Core](#4-technical-core) | Featured code, AAP integration, collections |
+| 5 | [Validation](#5-validation) | Concrete tests, expected output, troubleshooting |
+| 6 | [Business Reinforcement](#6-business-reinforcement) | ROI recap, maturity path, cross-linking |
+
+### Full Table of Contents <!-- omit in toc -->
 
 - [0. Title Standard (Non-Negotiable)](#0-title-standard-non-negotiable)
 - [1. The Executive Hook](#1-the-executive-hook)
@@ -32,6 +46,7 @@ A framework for creating enterprise-grade solution guides for Ansible Automation
   - [6.1 ROI Recap](#61-roi-recap)
   - [6.2 Crawl, Walk, Run](#62-crawl-walk-run)
   - [6.3 Next Steps and Cross-Linking](#63-next-steps-and-cross-linking)
+- [Reference](#reference)
 - [Appendix: Starter Template](#appendix-starter-template)
 
 ---
@@ -389,6 +404,8 @@ Every guide exists within a broader ecosystem. Authors must identify and link to
 > - Ready to add event-driven triggers? See [Get started with EDA](https://access.redhat.com/articles/7136720)
 
 ---
+
+## Reference
 
 <details markdown="1">
 <summary>Quality Scoring Rubric</summary>
