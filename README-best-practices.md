@@ -57,7 +57,9 @@ Solution guides published on access.redhat.com follow the convention `[Topic] - 
 - "Reducing MTTR with Automated ServiceNow Ticket Enrichment - Solution Guide"
 - "Triggering Automated Remediation from Splunk Alerts with Event-Driven Ansible - Solution Guide"
 
-> When in doubt, use the `[Topic] - Solution Guide` format for the KB article title, but lead the guide itself with an outcome-oriented subtitle or problem statement in the opening section.
+> **Tip:** When in doubt, use the standard format.
+>
+> Use `[Topic] - Solution Guide` for the KB article title, but lead the guide itself with an outcome-oriented subtitle or problem statement in the opening section.
 
 **Solution vs. Tutorial:** A solution guide must solve an operational problem, not teach how to use a tool. If your guide could be titled "Getting started with X" or "How to use Y," it is a tutorial, not a solution. Reframe it around the outcome: what real-world problem does this automation solve?
 
@@ -86,6 +88,8 @@ This section must be readable by a decision maker.
 
 **Example format:**
 
+> **Example problem statement:**
+>
 > Organizations spend X hours manually performing Y, leading to Z risk. This guide demonstrates how to automate this workflow using AAP to reduce effort by X% and improve consistency.
 
 ### 1.2 Who Benefits (Persona Mapping)
@@ -196,7 +200,9 @@ Schedule/Trigger → Fact Gather → Analyze/Compare → Remediate → Report
 External Event (ITSM/Webhook) → Controller API → Playbook → Update Source System
 ```
 
-> **Tip:** If your guide doesn't fit any of these patterns, draw your own -- but if you can't draw it in 3-6 blocks, the workflow may be too complex for a single guide. Consider splitting.
+> **Tip:** Draw your own if needed.
+>
+> If your guide doesn't fit any of these patterns, draw your own -- but if you can't draw it in 3-6 blocks, the workflow may be too complex for a single guide. Consider splitting.
 
 ### 3.2 Narrative Walkthrough
 
@@ -322,10 +328,14 @@ No vague instructions like "Create a job template." Be explicit. Here is the min
 
 **Example -- Credential mapping:**
 
-> Use a **Custom Credential Type** for third-party API tokens. Inject them as extra variables or environment variables -- never hardcode secrets in playbooks. See [Creating Custom Credential Types](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/) in the AAP documentation.
+> **Custom Credential Types** for API tokens.
+>
+> Inject tokens as extra variables or environment variables -- never hardcode secrets in playbooks. See [Creating Custom Credential Types](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/) in the AAP documentation.
 
 **Example -- RBAC note:**
 
+> **RBAC:** Scope roles tightly per team.
+>
 > Assign the `Execute` role on this Job Template to the `ops-tier1` team. The `Admin` role should be limited to the automation architect team to prevent accidental template modification.
 
 ---
@@ -359,6 +369,8 @@ curl -sk https://controller.example.com/api/v2/job_templates/42/launch/ \
 
 **Good example (manual trigger):**
 
+> **Manual trigger** via the AAP UI.
+>
 > Navigate to **Resources → Templates → [Template Name]** in the AAP Controller UI. Click **Launch** and provide the survey values when prompted.
 
 ### 5.2 Expected Result
@@ -490,7 +502,9 @@ A guide that passes the checklist on paper can still fail in practice if it lack
 | Diagrams | 1 | 2-3 |
 | Validation scenarios | 1 | 2-3 (including failure cases) |
 
-> **Warning:** If your guide has fewer than 3 walkthrough steps or fewer than 2 code blocks, it is likely too thin. Either expand the scope or merge it with a related guide. The Network Fact Gathering guide is an example of a guide that would benefit from merging with its companion guide due to insufficient standalone depth.
+> **Warning:** Your guide may be too thin.
+>
+> If it has fewer than 3 walkthrough steps or fewer than 2 code blocks, either expand the scope or merge it with a related guide. The Network Fact Gathering guide is an example that would benefit from merging with its companion due to insufficient standalone depth.
 
 ---
 

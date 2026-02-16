@@ -138,6 +138,41 @@ tr:nth-child(odd) td {
   background-color: #ffffff;
 }
 
+// copy-to-clipboard button
+
+.copy-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-family: 'Red Hat Text', sans-serif;
+  font-weight: 600;
+  color: #999;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  z-index: 2;
+}
+
+div:hover > .copy-btn {
+  opacity: 1;
+}
+
+.copy-btn:hover {
+  background: #333;
+  color: #fff;
+  border-color: #555;
+}
+
+.copy-btn--success {
+  color: #5cb85c !important;
+  border-color: #5cb85c !important;
+}
+
 // codeblock tweaks
 
 .highlighter-rouge pre.highlight {
