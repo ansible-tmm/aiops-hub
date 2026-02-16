@@ -112,7 +112,7 @@
     </script>
 
     <!-- Konami Code Easter Egg -->
-    <img id="nuno-easter-egg" src="{{ '/assets/images/nuno-way-out.png' | relative_url }}" alt="Nuno Way Out" style="
+    <img id="konami-easter-egg" style="
       position: fixed;
       width: 300px;
       height: auto;
@@ -124,21 +124,27 @@
       (function() {
         var konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
         var konamiIndex = 0;
+        var easterEggImages = [
+          '{{ "/assets/images/nuno-way-out.png" | relative_url }}',
+          '{{ "/assets/images/roger-that.png" | relative_url }}',
+          '{{ "/assets/images/leo-sticker.png" | relative_url }}'
+        ];
 
         document.addEventListener('keydown', function(e) {
           if (e.key === konamiCode[konamiIndex]) {
             konamiIndex++;
             if (konamiIndex === konamiCode.length) {
               konamiIndex = 0;
-              launchNuno();
+              launchEasterEgg();
             }
           } else {
             konamiIndex = 0;
           }
         });
 
-        function launchNuno() {
-          var img = document.getElementById('nuno-easter-egg');
+        function launchEasterEgg() {
+          var img = document.getElementById('konami-easter-egg');
+          img.src = easterEggImages[Math.floor(Math.random() * easterEggImages.length)];
           var viewH = window.innerHeight;
           var startY = Math.random() * (viewH - 350);
 
