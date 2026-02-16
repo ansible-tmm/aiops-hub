@@ -19,35 +19,10 @@ A framework for creating enterprise-grade solution guides for Ansible Automation
 | 5 | [Validation](#5-validation) | Concrete tests, expected output, troubleshooting |
 | 6 | [Business Reinforcement](#6-business-reinforcement) | ROI recap, maturity path, cross-linking |
 
-### Full Table of Contents <!-- omit in toc -->
-
-- [0. Title Standard (Non-Negotiable)](#0-title-standard-non-negotiable)
-- [1. The Executive Hook](#1-the-executive-hook)
-  - [1.1 The Problem Statement](#11-the-problem-statement)
-  - [1.2 Who Benefits](#12-who-benefits)
-- [2. Scope and Production Considerations](#2-scope-and-production-considerations)
-  - [2.1 Impact Rating](#21-impact-rating)
-  - [2.2 Prerequisites](#22-prerequisites)
-  - [2.3 Cost and Resource Notes](#23-cost-and-resource-notes)
-  - [2.4 KB Article Metadata](#24-kb-article-metadata)
-- [3. Architecture and Workflow](#3-architecture-and-workflow)
-  - [3.1 Workflow Diagram](#31-workflow-diagram)
-  - [3.2 Narrative Walkthrough](#32-narrative-walkthrough)
-  - [3.3 Visual Design Patterns](#33-visual-design-patterns)
-- [4. Technical Core](#4-technical-core)
-  - [4.1 Foundation Setup](#41-foundation-setup)
-  - [4.2 Featured Code](#42-featured-code)
-  - [4.3 AAP Integration](#43-aap-integration)
-- [5. Validation](#5-validation)
-  - [5.1 The Test](#51-the-test)
-  - [5.2 Expected Result](#52-expected-result)
-  - [5.3 Troubleshooting Common Failures](#53-troubleshooting-common-failures)
-- [6. Business Reinforcement](#6-business-reinforcement)
-  - [6.1 ROI Recap](#61-roi-recap)
-  - [6.2 Crawl, Walk, Run](#62-crawl-walk-run)
-  - [6.3 Next Steps and Cross-Linking](#63-next-steps-and-cross-linking)
-- [Reference](#reference)
-- [Appendix: Starter Template](#appendix-starter-template)
+| | Section | What It Covers |
+|--|---------|---------------|
+| | [Reference](#reference) | Scoring rubric, failure modes, elite guide criteria |
+| | [Appendix: Starter Template](#appendix-starter-template) | Copy-paste skeleton for new guides |
 
 ---
 
