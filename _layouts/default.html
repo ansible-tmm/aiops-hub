@@ -79,5 +79,83 @@
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
+    <!-- Konami Code Easter Egg -->
+    <img id="nuno-easter-egg" src="{{ '/assets/images/nuno-way-out.png' | relative_url }}" alt="Nuno Way Out" style="
+      position: fixed;
+      width: 300px;
+      height: auto;
+      z-index: 99999;
+      pointer-events: none;
+      display: none;
+    "/>
+    <script>
+      (function() {
+        var konamiCode = [38,38,40,40,37,39,37,39,66,65];
+        var konamiIndex = 0;
+
+        document.addEventListener('keydown', function(e) {
+          if (e.keyCode === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+              konamiIndex = 0;
+              launchNuno();
+            }
+          } else {
+            konamiIndex = 0;
+          }
+        });
+
+        function launchNuno() {
+          var img = document.getElementById('nuno-easter-egg');
+          var viewH = window.innerHeight;
+          var startY = Math.random() * (viewH - 350);
+
+          img.style.display = 'block';
+          img.style.left = '-320px';
+          img.style.top = startY + 'px';
+          img.style.transform = 'rotate(0deg)';
+          img.style.transition = 'none';
+
+          var bounceCount = 0;
+          var maxBounces = 3;
+          var posX = -320;
+          var posY = startY;
+          var velX = 12 + Math.random() * 4;
+          var velY = -(8 + Math.random() * 4);
+          var gravity = 0.6;
+          var rotation = 0;
+          var spin = 6 + Math.random() * 6;
+          var screenW = window.innerWidth;
+
+          function animate() {
+            posX += velX;
+            velY += gravity;
+            posY += velY;
+            rotation += spin;
+
+            // Bounce off the bottom
+            if (posY > viewH - 300) {
+              posY = viewH - 300;
+              velY = -(Math.abs(velY) * 0.7);
+              bounceCount++;
+              spin *= 0.8;
+            }
+
+            img.style.left = posX + 'px';
+            img.style.top = posY + 'px';
+            img.style.transform = 'rotate(' + rotation + 'deg)';
+
+            if (posX < screenW + 400) {
+              requestAnimationFrame(animate);
+            } else {
+              img.style.display = 'none';
+            }
+          }
+
+          requestAnimationFrame(animate);
+        }
+      })();
+    </script>
   </body>
 </html>
