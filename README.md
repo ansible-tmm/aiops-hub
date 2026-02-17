@@ -1,5 +1,5 @@
 
-# AIOps Hub <!-- omit in toc -->
+# Solution Guides <!-- omit in toc -->
 
 Solution guides for AI-driven automation with Ansible Automation Platform.
 
