@@ -35,6 +35,7 @@ AIOps breaks this linear relationship by inserting **AI inference** between the 
 - [Overview](#overview)
 - [Background](#background)
 - [Solution](#solution)
+- [Prerequisites](#prerequisites)
 - [AIOps Workflow](#aiops-workflow)
   - [Example Workflow Diagram](#example-workflow-diagram)
 - [1. Event-Driven Ansible (EDA) Response](#1-event-driven-ansible-eda-response)
@@ -113,6 +114,38 @@ What makes up the solution?
 - <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3a5.png" width="20" style="vertical-align:text-bottom;"> [YouTube video (~2 min)](https://youtu.be/a3fCHd2vTXU?si=L_5jGYZFtb3SzCJq)
 - <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4e2.png" width="20" style="vertical-align:text-bottom;"> [Please consider subscribing to the Ansible Team!](https://youtube.com/ansibleautomation?sub_confirmation=1)
 
+<h2 id="prerequisites"></h2>
+
+## Prerequisites
+
+### Ansible Automation Platform
+
+- **Ansible Automation Platform 2.5+** — Required for enterprise Event-Driven Ansible (EDA Controller) support.
+
+### Featured Ansible Content Collections
+
+| Collection | Type | Purpose |
+|-----------|------|---------|
+| <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ansible/eda/">ansible.eda</a> | Certified | EDA event sources and filters (Kafka, webhooks, etc.) |
+| <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ansible/controller/">ansible.controller</a> | Certified | Automation Controller configuration as code (job templates, workflows, surveys) |
+| <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ansible/scm/">ansible.scm</a> | Certified | Git operations (commit and push generated playbooks) |
+| <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/validated/infra/ai">infra.ai</a> | Validated | Provisions RHEL AI infrastructure (AWS, Azure, GCP, bare metal) |
+| <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/redhat/ai">redhat.ai</a> | Certified | Configures and serves AI models using InstructLab |
+
+> **Need to deploy your own AI inference endpoint?**
+>
+> The `infra.ai` and `redhat.ai` collections automate the full stack — from provisioning a GPU instance to serving a model. See the companion guide [AI Infrastructure automation with Ansible](README-IA.md) for a complete walkthrough.
+
+### External Systems
+
+| System | Required | Examples |
+|--------|----------|----------|
+| Observability tool | Yes | Filebeat, IBM Instana, Splunk, Dynatrace, Prometheus |
+| Message queue | Optional (depends on observability tool) | Apache Kafka, AWS SQS, Azure Service Bus |
+| AI inference endpoint | Yes | Red Hat AI (RHEL AI + InstructLab) or any OpenAI-compatible API |
+| Ansible Lightspeed | Yes | Ansible Lightspeed with IBM watsonx Code Assistant |
+| Git repository | Yes | GitHub, GitLab, Gitea |
+| Chat or ITSM tool | Recommended | Mattermost, Slack, ServiceNow |
 
 <h2 id="aiops-workflow"></h2>
 
