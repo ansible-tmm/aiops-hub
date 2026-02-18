@@ -25,13 +25,24 @@ Accepted label prefixes: `**Tip:**`, `**Warning:**`, `**Why [tool]?:**`, `**Exam
 
 ## Solution Guide Structure
 
-All solution guides must follow the framework in `README-best-practices.md`. Key non-negotiables:
+All solution guides must follow the framework in `README-best-practices.md`. The framework section names map 1:1 to the section names in every guide:
 
-- **Title**: `[Topic] - Solution Guide` format. Must describe an operational outcome, not a product feature.
+1. **Title** — `[Topic] - Solution Guide` format. Outcome-oriented, not product feature.
+2. **Overview** — Problem statement (2-4 sentences), hero image, table of contents.
+3. **Background** — Domain context explaining what the topic is and why it matters.
+4. **Solution** — Components list, Who Benefits persona table, demos/videos.
+5. **Prerequisites** — AAP version, collections (with Automation Hub links), external systems.
+6. **[Topic] Workflow** — Architecture diagrams, narrative walkthrough.
+7. **Solution Walkthrough** — Step-by-step technical depth with featured code.
+8. **Validation** — Concrete test, expected output, troubleshooting table.
+9. **Maturity Path and Related Guides** — Crawl/Walk/Run, cross-links to other guides.
+
+Key non-negotiables:
+
 - **Solution not tutorial**: If it could be titled "Getting started with X," reframe it around the problem it solves.
 - **Starter template**: New guides should copy the skeleton from the Appendix of `README-best-practices.md`.
 - **Minimum depth**: At least 3 walkthrough steps, 2 YAML code blocks, 1 diagram, ~800 words.
-- **Validation section is mandatory**: Include a concrete test command, verbatim expected output, and a troubleshooting table.
+- **Validation section is mandatory**: Include a concrete test, verbatim expected output, and a troubleshooting table.
 - **Automation Hub links**: Every Ansible collection referenced must link to its Automation Hub page.
 - **KB article link**: Include the `access.redhat.com` article link in a blockquote directly under the title.
 

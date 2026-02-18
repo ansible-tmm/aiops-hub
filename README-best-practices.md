@@ -9,15 +9,19 @@ A framework for creating enterprise-grade solution guides for Ansible Automation
 
 ### The Framework at a Glance <!-- omit in toc -->
 
+These sections map 1:1 to the section names in every solution guide. When reviewing a guide, you should be able to match each section header directly to this framework.
+
 | Step | Section | What It Covers |
 |------|---------|---------------|
-| 1 | [Title Standard](#1-title-standard) | Outcome-oriented naming convention |
-| 2 | [Executive Hook](#2-the-executive-hook) | Problem statement and persona mapping |
-| 3 | [Scope and Production](#3-scope-and-production-considerations) | Impact rating, prerequisites, KB metadata |
-| 4 | [Architecture and Workflow](#4-architecture-and-workflow) | Diagrams, narrative walkthrough, visual patterns |
-| 5 | [Technical Core](#5-technical-core) | Featured code, AAP integration, collections |
-| 6 | [Validation](#6-validation) | Concrete tests, expected output, troubleshooting |
-| 7 | [Business Reinforcement](#7-business-reinforcement) | ROI recap, maturity path, cross-linking |
+| 1 | [Title](#1-title) | Outcome-oriented naming convention |
+| 2 | [Overview](#2-overview) | Problem statement, hero image, table of contents |
+| 3 | [Background](#3-background) | Domain context -- what the topic is and why it matters |
+| 4 | [Solution](#4-solution) | Components, persona mapping, demos/videos |
+| 5 | [Prerequisites](#5-prerequisites) | AAP version, collections, external systems, KB metadata |
+| 6 | [Workflow and Architecture](#6-workflow-and-architecture) | Diagrams, narrative walkthrough, visual patterns |
+| 7 | [Solution Walkthrough](#7-solution-walkthrough) | Featured code, AAP integration, step-by-step technical depth |
+| 8 | [Validation](#8-validation) | Concrete tests, expected output, troubleshooting |
+| 9 | [Maturity Path and Related Guides](#9-maturity-path-and-related-guides) | Crawl/Walk/Run, cross-linking, ROI recap |
 
 | Section | What It Covers |
 |---------|---------------|
@@ -26,7 +30,7 @@ A framework for creating enterprise-grade solution guides for Ansible Automation
 
 ---
 
-## 1. Title Standard
+## 1. Title
 
 **Rule:** Titles must describe an operational outcome, not a product feature.
 
@@ -49,7 +53,7 @@ Solution guides published on access.redhat.com follow the convention `[Topic] - 
 
 > **Tip:** When in doubt, use the standard format.
 >
-> Use `[Topic] - Solution Guide` for the KB article title, but lead the guide itself with an outcome-oriented subtitle or problem statement in the opening section.
+> Use `[Topic] - Solution Guide` for the KB article title, but lead the guide itself with an outcome-oriented subtitle or problem statement in the Overview section.
 
 **Solution vs. Tutorial:** A solution guide must solve an operational problem, not teach how to use a tool. If your guide could be titled "Getting started with X" or "How to use Y," it is a tutorial, not a solution. Reframe it around the outcome: what real-world problem does this automation solve?
 
@@ -62,13 +66,13 @@ Solution guides published on access.redhat.com follow the convention `[Topic] - 
 
 ---
 
-## 2. The Executive Hook
+## 2. Overview
 
-Frame the guide strategically so it is readable by a decision maker, not just a practitioner.
+The Overview is the first thing a reader sees. It must frame the guide strategically so it is readable by a decision maker, not just a practitioner. This is where you hook the reader.
 
-### 2.1 The Problem Statement
+### 2.1 Problem Statement
 
-Define the operational pain in 2-4 sentences max. Quantify if possible (time, cost, risk, compliance).
+Define the operational pain in 2-4 sentences max. Quantify if possible (time, cost, risk, compliance). This goes directly after the hero image or KB article link.
 
 **Example format:**
 
@@ -76,43 +80,117 @@ Define the operational pain in 2-4 sentences max. Quantify if possible (time, co
 >
 > Organizations spend X hours manually performing Y, leading to Z risk. This guide demonstrates how to automate this workflow using AAP to reduce effort by X% and improve consistency.
 
-### 2.2 Who Benefits
+### 2.2 Table of Contents
 
-| Persona | What They Gain |
-|---------|---------------|
-| IT Ops Admin | Eliminates manual triage |
-| Architect | Reference workflow design |
-| Manager | Reduced MTTR and measurable ROI |
+Include a linked table of contents after the problem statement so readers can jump to any section.
 
 ---
 
-## 3. Scope and Production Considerations
+## 3. Background
+
+Explain what the topic is and why it matters. This section provides the domain context a reader needs before the solution architecture makes sense.
+
+Not every reader will know what AIOps is, or how ServiceNow ticket enrichment works, or why network backup matters. The Background section answers: **"What problem space are we in, and why should I care?"**
+
+### Guidelines
+
+- Keep it to 1-3 paragraphs -- enough context to orient the reader, not a textbook chapter.
+- Link to redhat.com topic pages for deeper reading (e.g., "What is AIOps?", "What is observability?").
+- If the topic has well-known subcomponents (e.g., AIOps has Observability, Inference, Automation), define them here.
+- Include a diagram if it helps explain the concept visually.
+
+> **Tip:** Background is not the solution.
+>
+> Keep the Background focused on the problem domain. The specific tools and components that make up *your* solution belong in the next section.
+
+---
+
+## 4. Solution
+
+Describe the specific components that make up the solution and who benefits from it. This is the answer to: **"What are we building, and who is it for?"**
+
+### 4.1 Components
+
+List the tools and technologies used in this solution. Link to product pages.
+
+**Example:**
+
+- **Red Hat AI** for understanding service issues
+- **Ansible Lightspeed** to generate remediation playbooks
+- **Ansible Automation Platform (AAP)** workflows for orchestration
+- **Event-Driven Ansible (EDA)** to listen to real-time service events
+
+### 4.2 Who Benefits
+
+Map the solution to specific personas so each audience sees their value immediately.
+
+| Persona | Challenge | What They Gain |
+|---------|-----------|---------------|
+| IT Ops Engineer / SRE | [Their specific pain] | [What this guide gives them] |
+| Automation Architect | [Their specific pain] | [What this guide gives them] |
+| IT Manager / Director | [Their specific pain] | [What this guide gives them] |
+
+> **Tip:** Add a "Challenge" column.
+>
+> A three-column persona table (Persona, Challenge, What They Gain) is more persuasive than two columns because it anchors the value in a specific pain the reader recognizes.
+
+### 4.3 Demos, Videos, and Labs
+
+Link to YouTube videos, Instruqt labs, and interactive demos here. This gives the reader an immediate way to see the solution in action before reading the full technical walkthrough.
+
+---
+
+## 5. Prerequisites
 
 Set expectations early. This is where many solution guides fail -- the reader needs to know what they are getting into before they start.
 
-### 3.1 Impact Rating
+### 5.1 Ansible Automation Platform Version
 
-- **Low** — safe, read-only
-- **Medium** — config change, reversible
-- **High** — production mutation, requires Change Advisory Board (CAB)
+State the minimum AAP version required. If specific features (like EDA Controller) require a particular version, call that out.
 
-### 3.2 Prerequisites
+### 5.2 Featured Ansible Content Collections
 
-- AAP version
-- Collections
-- OS requirements
-- External systems (ServiceNow, Splunk, AWS, etc.)
+List every collection used in the guide with a direct link to its page on [Automation Hub](https://console.redhat.com/ansible/automation-hub/). This is mandatory.
 
-### 3.3 Cost and Resource Notes
+**Example:**
 
-- GPU required?
-- Cloud instance sizing?
-- API limits?
-- Licensing assumptions?
+| Collection | Type | Purpose |
+|-----------|------|---------|
+| [ansible.eda](https://console.redhat.com/ansible/automation-hub/repo/published/ansible/eda/) | Certified | EDA event sources and filters |
+| [redhat.ai](https://console.redhat.com/ansible/automation-hub/repo/published/redhat/ai) | Certified | AI model configuration and serving |
+| [infra.ai](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/ai) | Validated | AI infrastructure provisioning |
 
-Ensure the required infrastructure is realistic for the target audience and that security or RBAC implications are called out.
+### 5.3 External Systems
 
-### 3.4 KB Article Metadata
+List any external tools, services, or infrastructure the reader needs.
+
+| System | Required | Examples |
+|--------|----------|----------|
+| Observability tool | Yes | Filebeat, IBM Instana, Splunk |
+| Message queue | Optional | Apache Kafka, AWS SQS |
+| AI inference endpoint | Yes | Red Hat AI or any OpenAI-compatible API |
+
+### 5.4 Cost and Resource Notes
+
+If applicable, note:
+
+- GPU requirements
+- Cloud instance sizing
+- API rate limits
+- Licensing assumptions
+
+### 5.5 Operational Impact
+
+State the impact level. If it varies per step, note it per step rather than per guide.
+
+| Impact | Meaning |
+|--------|---------|
+| **None** | Read-only, no changes to systems |
+| **Low** | Safe, reversible changes |
+| **Medium** | Configuration changes, test first |
+| **High** | Production mutation, requires change advisory board (CAB) |
+
+### 5.6 KB Article Metadata
 
 Published solution guides on access.redhat.com follow a structured metadata pattern. Include these fields near the top of each guide, directly after the overview:
 
@@ -122,22 +200,13 @@ Published solution guides on access.redhat.com follow a structured metadata patt
 - **Recommended Demos and Self-Paced Labs** -- Link to interactive demos, YouTube videos, and Instruqt labs where available.
 - **Featured Ansible Content Collections** -- List every collection used with a direct link to its [Automation Hub](https://console.redhat.com/ansible/automation-hub/) page.
 
-For reference, the impact levels:
-
-| Impact | Meaning |
-|--------|---------|
-| **None** | Read-only, no changes to systems |
-| **Low** | Safe, reversible changes |
-| **Medium** | Configuration changes, test first |
-| **High** | Production mutation, requires change advisory board (CAB) |
-
 ---
 
-## 4. Architecture and Workflow
+## 6. Workflow and Architecture
 
 This is the "aha" layer -- it must show causality so the reader understands the end-to-end flow before diving into code.
 
-### 4.1 Workflow Diagram
+### 6.1 Workflow Diagram
 
 Simple. Clean. 3-6 blocks max. Every guide must have at least one diagram. Choose the pattern that matches your guide type:
 
@@ -169,7 +238,7 @@ External Event (ITSM/Webhook) → Controller API → Playbook → Update Source 
 >
 > If your guide doesn't fit any of these patterns, draw your own -- but if you can't draw it in 3-6 blocks, the workflow may be too complex for a single guide. Consider splitting.
 
-### 4.2 Narrative Walkthrough
+### 6.2 Narrative Walkthrough
 
 Explain the logic in 5-8 sentences:
 
@@ -180,7 +249,7 @@ Explain the logic in 5-8 sentences:
 
 **Litmus test:** Could someone redraw the workflow after reading your narrative alone?
 
-### 4.3 Visual Design Patterns
+### 6.3 Visual Design Patterns
 
 Use the right visual format for the right purpose:
 
@@ -203,28 +272,20 @@ When referencing third-party tools (Kafka, Splunk, ServiceNow, etc.), include th
 
 ---
 
-## 5. Technical Core
+## 7. Solution Walkthrough
 
-This is where credibility is built -- the executable proof that the automation works. Keep it focused and accessible so anyone can follow along.
+This is where credibility is built -- the executable proof that the automation works. This is the largest section of the guide and contains the step-by-step technical depth.
 
-### 5.1 Foundation Setup
+### 7.1 Structure
 
-Only include:
+Break the walkthrough into numbered steps or workflow stages. Each step should have:
 
-- Secrets/tokens
-- API connectivity
-- Required collections
+- A clear heading describing what happens at this stage
+- Explanation of the purpose
+- Featured code (the key task, not the full playbook)
+- Screenshots of AAP UI where relevant (Workflow Visualizer, Job Output, Surveys)
 
-**Automation Hub linking rule:** Every Ansible collection referenced in the guide **must** include a direct link to its page on [Automation Hub](https://console.redhat.com/ansible/automation-hub/). This serves as both a credibility signal and a convenience for the reader.
-
-**Example:**
-
-- **Certified Collection**: [redhat.ai](https://console.redhat.com/ansible/automation-hub/repo/published/redhat/ai) -- Configures and serves an AI model using InstructLab.
-- **Validated Collection**: [infra.ai](https://console.redhat.com/ansible/automation-hub/repo/validated/infra/ai) -- Provisions RHEL AI infrastructure.
-
-No fluff.
-
-### 5.2 Featured Code
+### 7.2 Featured Code
 
 Do **NOT** dump the full repo. Show the critical pieces:
 
@@ -245,7 +306,7 @@ Do **NOT** dump the full repo. Show the critical pieces:
 
 Then link to the full source: `github.com/your-org/solution-guide-x`
 
-### 5.3 AAP Integration
+### 7.3 AAP Integration
 
 Show:
 
@@ -282,11 +343,13 @@ No vague instructions like "Create a job template." Be explicit. Here is the min
 
 ---
 
-## 6. Validation
+## 8. Validation
 
 This is mandatory -- a guide without a validation step is a guide that cannot be trusted. Validation was the most inconsistent section across existing guides, and many omit it entirely.
 
-### 6.1 The Test
+For reference architecture guides that cover multiple tools or patterns, validation can be done per workflow stage (checklist approach) rather than with a single test command. For implementation guides that target a specific tool, provide a concrete executable test.
+
+### 8.1 The Test
 
 Define a concrete, repeatable test. Not a vague suggestion -- an actual command or action the reader can execute.
 
@@ -315,7 +378,16 @@ curl -sk https://controller.example.com/api/v2/job_templates/42/launch/ \
 >
 > Navigate to **Resources → Templates → [Template Name]** in the AAP Controller UI. Click **Launch** and provide the survey values when prompted.
 
-### 6.2 Expected Result
+**Good example (per-stage checklist for reference architectures):**
+
+| Stage | What to Verify | Success Indicator |
+|-------|---------------|-------------------|
+| **1. Event Detection** | Rulebook activation is running | EDA Controller shows activation as **Running** |
+| **2. Enrichment** | AI analyzed the incident | Workflow Visualizer shows all nodes green |
+| **3. Remediation** | Playbook was generated and committed | New file exists in Git repo |
+| **4. Execute** | Fix was applied | Service returns to steady state |
+
+### 8.2 Expected Result
 
 Show the actual output the reader should expect. Do not describe it in prose -- show it.
 
@@ -333,7 +405,7 @@ servicenow_host : ok=4    changed=2    unreachable=0    failed=0    skipped=0
 > - **Work Notes:** Contains the AI-generated summary
 > - **Assignment Group:** Updated to the correct tier
 
-### 6.3 Troubleshooting Common Failures
+### 8.3 Troubleshooting Common Failures
 
 Include at least 2-3 common failure scenarios and how to diagnose them:
 
@@ -345,17 +417,13 @@ Include at least 2-3 common failure scenarios and how to diagnose them:
 
 ---
 
-## 7. Business Reinforcement
+## 9. Maturity Path and Related Guides
 
-Close the loop so the guide is more than just a lab exercise. Reinforce the business value and show where to go next.
+Close the loop so the guide is more than just a lab exercise. Show the reader where they are on the adoption journey and where to go next.
 
-### 7.1 ROI Recap
+### 9.1 Crawl, Walk, Run
 
-> **Completed:** The solution guide is done.
->
-> You now have automated X, reducing manual effort and improving consistency. Summarize the measurable outcome the reader has achieved.
-
-### 7.2 Crawl, Walk, Run
+Every guide should map to a maturity progression. This helps organizations adopt incrementally rather than requiring a big-bang implementation.
 
 | Maturity | Description |
 |----------|-------------|
@@ -363,7 +431,9 @@ Close the loop so the guide is more than just a lab exercise. Reinforce the busi
 | **Walk** | Automated ticket updates |
 | **Run** | Fully automated remediation |
 
-### 7.3 Next Steps and Cross-Linking
+The progression should be specific to the guide's use case. The key question at each stage is: **how much autonomy does automation have?**
+
+### 9.2 Related Guides
 
 Every guide exists within a broader ecosystem. Authors must identify and link to related guides so readers understand the full journey.
 
@@ -377,6 +447,14 @@ Every guide exists within a broader ecosystem. Authors must identify and link to
 > **Related guides:**
 > - Need to deploy the AI infrastructure first? See [AI Infrastructure automation with Ansible](README-IA.md)
 > - Ready to add event-driven triggers? See [Get started with EDA](https://access.redhat.com/articles/7136720)
+
+### 9.3 ROI Recap
+
+Summarize the measurable outcome the reader has achieved.
+
+> **Completed:** The solution guide is done.
+>
+> You now have automated X, reducing manual effort and improving consistency.
 
 ---
 
@@ -460,38 +538,50 @@ Copy this skeleton when creating a new solution guide. Replace all placeholder t
 
 Organizations spend X hours manually performing Y, leading to Z risk. This guide demonstrates how to automate this workflow using Ansible Automation Platform.
 
-**Operational Impact:** Low | Medium | High
+## Background
 
-**Business Value Drivers:**
-- [Value 1]
-- [Value 2]
+<!-- 1-3 paragraphs explaining what the topic is and why it matters. Link to redhat.com topic pages for deeper reading. -->
 
-**Technical Value Drivers:**
-- [Value 1]
-- [Value 2]
+## Solution
+
+<!-- List the components that make up this solution. Link to product pages. -->
+
+- **[Tool 1]** for [purpose]
+- **[Tool 2]** for [purpose]
+- **Ansible Automation Platform** for orchestration
+
+### Who Benefits
+
+| Persona | Challenge | What They Gain |
+|---------|-----------|---------------|
+| IT Ops Engineer | [Their pain] | [What they get] |
+| Automation Architect | [Their pain] | [What they get] |
+| IT Manager | [Their pain] | [What they get] |
 
 **Recommended Demos and Self-Paced Labs:**
 - [Demo or lab name](https://link)
 
-**Featured Ansible Content Collections:**
-- [collection.name](https://console.redhat.com/ansible/automation-hub/repo/published/namespace/name/)
-
-### Who Benefits
-
-| Persona | What They Gain |
-|---------|---------------|
-| IT Ops Admin | [Benefit] |
-| Architect | [Benefit] |
-| Manager | [Benefit] |
-
 ## Prerequisites
 
-- Ansible Automation Platform version X.X
-- Collections: `namespace.collection` vX.X
-- OS: RHEL X
-- External systems: [ServiceNow, AWS, etc.]
+### Ansible Automation Platform
 
-## Architecture
+- **Ansible Automation Platform X.X+** — [reason for version requirement]
+
+### Featured Ansible Content Collections
+
+| Collection | Type | Purpose |
+|-----------|------|---------|
+| [collection.name](https://console.redhat.com/ansible/automation-hub/repo/published/namespace/name/) | Certified | [Purpose] |
+
+### External Systems
+
+| System | Required | Examples |
+|--------|----------|----------|
+| [System type] | Yes / Optional | [Specific tools] |
+
+**Operational Impact:** None | Low | Medium | High
+
+## [Topic] Workflow
 
 <!-- Include a workflow diagram: 3-6 blocks showing the end-to-end flow. -->
 
@@ -547,23 +637,15 @@ target_host : ok=X    changed=X    unreachable=0    failed=0    skipped=0
 | [Error message or behavior] | [Root cause] | [Resolution steps] |
 | [Error message or behavior] | [Root cause] | [Resolution steps] |
 
-## Business Reinforcement
-
-### ROI Recap
-
-> **Completed:** The solution guide is done.
->
-> You now have automated [X], reducing manual effort by [Y] and improving [Z].
-
-### Maturity Path
+## Maturity Path
 
 | Maturity | Description |
 |----------|-------------|
-| **Crawl** | [Starting point] |
-| **Walk** | [Intermediate] |
-| **Run** | [Fully automated] |
+| **Crawl** | [Starting point -- read-only, low risk] |
+| **Walk** | [Intermediate -- curated automation, human approval] |
+| **Run** | [Fully automated -- AI-driven, policy-governed] |
 
-### Related Guides
+## Related Guides
 
 - [Related guide 1](link)
 - [Related guide 2](link)
