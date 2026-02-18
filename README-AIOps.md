@@ -309,7 +309,7 @@ Now that you have a great understanding of types of events, what are great examp
 
 <img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/beats-logo.webp">
 
-Filebeat is a lightweight, open-source log shipper developed by Elastic that collects and forwards logs to other parts of the Elastic Stack. It's part of the "beats" family, which includes other tools for collecting various data types. Filebeat is specifically designed for efficiently shipping log files, making it suitable for environments where resource usage needs to be minimized, like microservices or cloud-native setups.  This was used in our Ansible workshop and is not an observability tool and would also require an message bus like Kafka to operate.  It is simply forwarding logs from an end-system to a message aggeregator.
+Filebeat is a lightweight, open-source log shipper from Elastic that forwards logs from end-systems to a message aggregator. It is not an observability platform on its own — it requires a message bus like Kafka to transport events to EDA. We use it in the AIOps workshop because it is free, low-overhead, and easy to deploy in lab environments.
 
 <h4 id="ibm-instana"></h4>
 
@@ -319,7 +319,7 @@ Filebeat is a lightweight, open-source log shipper developed by Elastic that col
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ibm/instana/">IBM Instana on Automation hub</a>
 
-IBM Instana is a powerful observability platform designed for modern, cloud-native environments, making it an ideal foundation for AIOps strategies. It provides real-time, high-fidelity visibility into applications, services, infrastructure, and dependencies across hybrid and multicloud environments. What sets Instana apart is its ability to automatically detect changes, trace every request end-to-end, and generate context-rich alerts—enabling faster root cause analysis and proactive remediation. With built-in AI and contextual correlation, Instana helps operations teams surface anomalies, understand service impact, and trigger automation workflows, making it a key enabler for intelligent, self-healing systems in an AIOps ecosystem.
+IBM Instana provides real-time observability across hybrid and multicloud environments with automatic change detection, end-to-end tracing, and context-rich alerts. Its built-in anomaly detection and contextual correlation make it a natural event source for EDA rulebooks — Instana can trigger automation workflows directly or through a message bus like Kafka.
 
 <h4 id="splunk"></h4>
 
@@ -329,7 +329,7 @@ IBM Instana is a powerful observability platform designed for modern, cloud-nati
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/namespaces/splunk/">Splunk on Automation hub</a>
 
-Splunk is a leading data analytics and log aggregation platform that plays a pivotal role in AIOps by turning massive volumes of machine data into actionable insights. With its ability to ingest logs, metrics, traces, and events from virtually any source, Splunk provides a centralized view of system health and performance across complex IT environments. Its AIOps capabilities are driven by advanced machine learning, anomaly detection, and predictive analytics, allowing teams to proactively identify issues before they impact users. By correlating disparate signals and enriching incidents with contextual data, Splunk helps automate root cause analysis and streamline incident response workflows—making it an essential tool for organizations looking to implement intelligent, data-driven operations.
+Splunk ingests logs, metrics, traces, and events from virtually any source, providing a centralized view of system health across complex IT environments. Its machine learning and anomaly detection capabilities can proactively surface issues, making it an ideal trigger source for EDA-driven remediation workflows.
 
 
 <h3 id="3-eda-sees-event-in-message-queue"></h3>
@@ -346,7 +346,7 @@ Message queues are optional depending on the observability tool.  For example IB
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/amazon/aws/">AWS on Automation hub</a>
 
-Amazon SQS (Simple Queue Service) is a managed message queuing service from AWS that facilitates asynchronous communication between different components of a system. It allows for decoupling of applications, making them more resilient and scalable. SQS acts as a temporary repository for messages, enabling producers (applications sending messages) and consumers (applications receiving and processing messages) to communicate without direct dependencies.
+Amazon SQS (Simple Queue Service) is a managed message queuing service that decouples event producers from consumers. In an AIOps workflow, observability tools or AWS CloudWatch can publish events to an SQS queue, and EDA subscribes to that queue to trigger automation.
 
 <h4 id="azure-service-bus"></h4>
 
@@ -356,7 +356,7 @@ Amazon SQS (Simple Queue Service) is a managed message queuing service from AWS 
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ansible/eda/content/eda%2Fplugins%2Fevent_source/azure_service_bus/">Azure Service Bus on Automation hub</a>
 
-Azure Service Bus is a fully managed enterprise messaging service that provides robust message queuing and publish-subscribe capabilities, making it an excellent fit for AIOps workflows in cloud-centric environments. With support for features like message deduplication, dead-lettering, and advanced filtering, Azure Service Bus enables reliable, scalable communication between distributed systems. In an AIOps setup, it serves as a secure and resilient backbone for aggregating events and operational signals from Azure resources, applications, or third-party systems. Tools like Ansible Event-Driven Automation can subscribe to topics or queues within Service Bus to detect anomalies, failures, or changes and trigger automated remediation workflows—enabling intelligent, event-driven operations with built-in cloud-native integration.
+Azure Service Bus is a fully managed enterprise messaging service with message queuing and publish-subscribe capabilities. EDA can subscribe to Service Bus topics or queues to detect events from Azure resources and third-party systems, making it a natural fit for cloud-centric AIOps workflows.
 
 <h4 id="kafka"></h4>
 
@@ -366,7 +366,7 @@ Azure Service Bus is a fully managed enterprise messaging service that provides 
 
 <a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/ansible/eda/content/eda%2Fplugins%2Fevent_source/kafka/">Kafka on Automation hub</a>
 
-Apache Kafka is a high-throughput, fault-tolerant event streaming platform that serves as a powerful backbone for AIOps workflows by enabling real-time ingestion, aggregation, and distribution of operational events. In an AIOps context, Kafka acts as a central nervous system, collecting telemetry data, logs, alerts, and state changes from diverse sources across infrastructure and applications. This event stream can then be consumed by automation engines like Ansible Event-Driven Automation (EDA), which listen for specific patterns and trigger intelligent remediation workflows. By decoupling event producers and consumers, Kafka ensures scalability, durability, and reliability—making it ideal for building responsive, self-healing systems that operate on live operational signals.
+Apache Kafka is a high-throughput, fault-tolerant event streaming platform that collects telemetry data, logs, alerts, and state changes from diverse sources. EDA listens to Kafka topics for specific patterns and triggers remediation workflows. Kafka's ability to decouple producers and consumers makes it ideal for scaling AIOps pipelines across large environments.
 
 Example rulebook for Kafka:
 
@@ -422,7 +422,7 @@ In our AIops workshop we have an Ansible Playbook that captures additional infor
 
 This process is similar to agentic workflow, where we capture information, just as we need it.
 
-> text-bottom;"> **What is an agentic workflow?**
+> **What is an agentic workflow?**
 >
 > An **agentic workflow** with AI refers to a system where an AI agent is empowered to make decisions, take actions, and pursue goals across multiple steps—often autonomously. Unlike a single API call or a static prompt, agentic workflows involve **planning, reasoning, tool use**, and possibly interacting with other agents or services. These agents maintain **state**, adjust behavior based on feedback, and operate in loops (like ReAct or AutoGPT). The goal is to replicate more human-like problem solving, where the AI isn't just responding, but actively **working through a task**. This is especially useful in AIOps, automation, and multi-step orchestration.
 
@@ -514,7 +514,7 @@ This is where we synchronize the output from Red Hat AI to another outside syste
 
 <a target="_blank" href="https://docs.ansible.com/ansible/latest/collections/community/general/mattermost_module.html">Mattermost Documentation</a>
 
-**Mattermost** is an open-source, self-hostable chat and collaboration platform designed for secure team communication. In AIOps workflows, it’s a powerful tool for surfacing alerts, AI-generated insights, and automated remediation steps in real time—acting as a centralized command and control interface. Unlike Slack, Mattermost is free to use and gives you full control over deployment, integrations, and data privacy. It supports robust API and webhook integrations, making it easy to connect with automation tools like Ansible or event-driven systems. This makes it a great choice for teams building transparent, automated operations workflows.  We use it in the AIOps workshop as an example similar to Slack or Microsoft Teams.
+**Mattermost** is an open-source, self-hostable chat platform with robust API and webhook integrations. We use it in the AIOps workshop as a free alternative to Slack or Microsoft Teams — Ansible posts AI-generated diagnoses and remediation updates to a Mattermost channel in real time.
 
 <h4 id="servicenow"></h4>
 
@@ -522,9 +522,9 @@ This is where we synchronize the output from Red Hat AI to another outside syste
 
 <img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/servicenow-logo.png">
 
-<a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/servicenow/itsm/">ServicenNow on Automation hub</a>
+<a target="_blank" href="https://console.redhat.com/ansible/automation-hub/repo/published/servicenow/itsm/">ServiceNow on Automation hub</a>
 
-ServiceNow is an enterprise-grade **IT Service Management (ITSM)** platform designed to manage and automate IT operations, workflows, and service delivery—not a chat tool. In AIOps workflows, ServiceNow acts as the system of record for incidents, changes, and problem management, often triggered or enriched by AI-driven insights. It excels at ticketing, approvals, asset management, and ensuring IT compliance across organizations. Unlike chat apps, ServiceNow is built for structured workflows, automation, and integrations with tools like monitoring systems, CMDBs, and Ansible Automation Platform. It plays a critical role in closing the loop between detection, diagnosis, and resolution in modern IT operations.
+ServiceNow is an enterprise-grade **IT Service Management (ITSM)** platform and the system of record for incidents, changes, and problem management. In AIOps workflows, AI-driven insights enrich ServiceNow tickets automatically, and Ansible closes the loop by triggering remediation directly from ticket data.
 
 <h4 id="slack"></h4>
 
@@ -532,7 +532,7 @@ ServiceNow is an enterprise-grade **IT Service Management (ITSM)** platform desi
 
 <img width="200" src="https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/slack_logo.png">
 
-Slack is a widely adopted enterprise messaging and collaboration platform known for its polished user experience, robust integrations, and strong support ecosystem. In AIOps workflows, Slack is often used as a real-time communication hub where AI-driven alerts, diagnostics, and automation updates can be delivered directly to teams. It offers enterprise-grade features like identity management, compliance tools, and 24/7 support, making it a reliable choice for regulated and large-scale environments. Its rich API and app ecosystem allow seamless integration with platforms like ServiceNow, Ansible, and monitoring tools. While it's a paid solution, many organizations value its scalability, reliability, and enterprise-level support.
+Slack is an enterprise messaging platform with a rich API and app ecosystem that integrates seamlessly with Ansible, ServiceNow, and monitoring tools. In AIOps workflows, Slack channels serve as a real-time hub where AI-driven alerts, diagnostics, and remediation updates are delivered directly to operations teams.
 
 <h3 id="4-build-ansible-lightspeed-job-template"></h3>
 
