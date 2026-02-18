@@ -189,6 +189,17 @@ An AIOps workflow has four (4) parts:
 
    The final Job Template that fixes the issue on your IT infrastructure.  This is executing the Ansible Playbook that was generated in the previous workflow.  This falls under the **automation** part of AIOps and wraps up our self healing infrastructure use-case.
 
+### Operational Impact per Stage
+
+| Stage | Operational Impact | Why |
+|-------|-------------------|-----|
+| **1. EDA Response** | **None** | Read-only — EDA listens to events and triggers a workflow. No changes to systems. |
+| **2. Enrichment Workflow** | **Low** | Collects logs, calls an AI API, posts to chat/ITSM. The only write is a notification message — no infrastructure changes. |
+| **3. Remediation Workflow** | **Low** | Generates a playbook, commits to Git, creates a Job Template. Prepares the fix but does not touch production infrastructure. |
+| **4. Execute Remediation** | **High** | Modifies production infrastructure (restarting services, changing config files, etc.). Should go through a change window or approval gate. |
+
+Stages 1-3 are safe to experiment with in any environment. Stage 4 is where production risk lives — which is why the guide recommends a manual approval gate at the **Walk** maturity level and policy-governed auto-approval at the **Run** level.
+
 > **Could this be one workflow?**
 >
 > Yes — but it’s broken up for review points and easier adoption.
@@ -789,6 +800,12 @@ The workflow in this guide demonstrates the **Run** stage — AI generates a rem
 - <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f3a5.png" width="20" style="vertical-align:text-bottom;"> **Want to try this hands-on?** The [Hands-On AIOps Workshop](https://rhpds.github.io/ai-driven-automation-showroom/modules/index.html) walks through the full self-healing pipeline with a live lab — Part 1 covers Apache remediation, Part 2 extends to network automation with Splunk and Cisco routers.
 - <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4e1.png" width="20" style="vertical-align:text-bottom;"> **New to Event-Driven Ansible?** See [Get started with EDA (Ansible Rulebook)](https://access.redhat.com/articles/7136720) for the fundamentals of rulebooks, event sources, and actions.
 - <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4cb.png" width="20" style="vertical-align:text-bottom;"> **Looking for ticket enrichment?** See [ServiceNow ITSM Ticket Enrichment Automation](https://access.redhat.com/articles/7127603) — a great starting point for the **Crawl** stage of AIOps.
+
+---
+
+## Summary
+
+With this workflow in place, your team moves from manually triaging every alert to AI-diagnosed, dynamically remediated incidents. Instead of writing hundreds of rules to match hundreds of failure modes, a single AIOps pipeline uses AI inference to diagnose issues and Ansible Lightspeed to generate remediation playbooks on-the-fly. The result is faster mean time to resolution (MTTR), less operational toil, and an automation strategy that scales with your environment rather than against it.
 
 ---
 
