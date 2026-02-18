@@ -17,6 +17,21 @@
 
 ![aiops](https://raw.githubusercontent.com/rhpds/showroom-lb2961-ai-driven-ansible-automation/refs/heads/main/solution_images/aiops.png)
 
+Traditional event-driven automation is **deterministic** — for every event you want to handle, you write a specific rule and a corresponding action. Ten known failure scenarios means ten rules. A hundred means a hundred. This creates a **linear scaling problem**: as your IT environment grows in complexity, so does the number of rules you must author, test, and maintain.
+
+| Approach | Events | Rules Required | Actions |
+|----------|--------|---------------|---------|
+| Traditional EDA | 10 | 10 | 10 |
+| Traditional EDA | 100 | 100 | 100 |
+| Traditional EDA | 1,000 | 1,000 | 1,000 |
+| **AIOps with EDA** | **1,000** | **1** (+ AI inference) | **Dynamic** |
+
+AIOps breaks this linear relationship by inserting **AI inference** between the event and the action. Instead of hand-coding a rule for every possible failure mode, a single intelligent workflow captures the event, uses AI to diagnose the root cause, and generates the remediation dynamically. This guide demonstrates how to build that workflow using Ansible Automation Platform.
+
+> **Where does AIOps fit?**
+>
+> The industry is moving through three generations of IT automation: **task-based** automation (80% of current workloads — running known playbooks on a schedule or trigger), **event-driven** automation (15% — reacting to known conditions with pre-written rules), and **agent-driven** automation (5% and growing — handling novel situations with real-time contextual judgment). AIOps with Ansible bridges event-driven and agent-driven by using AI to handle situations you *didn't* explicitly write rules for, without requiring a fully autonomous agent.
+
 - [Overview](#overview)
 - [Background](#background)
 - [Solution](#solution)
