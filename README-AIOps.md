@@ -497,6 +497,33 @@ For advanced use cases that need full control over parameters like `temperature`
 - `top_p:` Limits the AI to sampling from the top probability mass (e.g., top 90%) for more focused outputs.
 - `n:` Specifies how many different completions you want the AI to generate for the given prompt.
 
+Alternatively, you can call the OpenAI-compatible API directly with `ansible.builtin.uri`. This approach works with any model server — not just Red Hat AI:
+
+```yaml
+    - name: Send POST request using uri module
+      ansible.builtin.uri:
+        url: "http://{{ rhelai_server }}:{{ rhelai_port }}/v1/completions"
+        method: POST
+        headers:
+          accept: "application/json"
+          Content-Type: "application/json"
+          Authorization: "Bearer {{ rhelai_token }}"
+        body:
+          prompt: "{{ gpt_prompt | default('What is the capital of the USA?') }}"
+          max_tokens: "{{ max_tokens | default('50') }}"
+          model: "/root/.cache/instructlab/models/granite-8b-lab-v1"
+          temperature: "{{ input_temperature | default(0) }}"
+          top_p: "{{ input_top_p | default(1) }}"
+          n: "{{ input_n | default(1) }}"
+        body_format: json
+        return_content: true
+        status_code: 200
+        timeout: 60
+      register: gpt_response
+```
+
+Both approaches produce the same result — the `redhat.ai.completion` module handles the HTTP details (headers, URL path, body format) for you, while `ansible.builtin.uri` gives you full control over the raw request.
+
 > **Why set n: 1?**
 >
 > You’d want `n: 1` when you’re only interested in getting a single best response from the AI:
