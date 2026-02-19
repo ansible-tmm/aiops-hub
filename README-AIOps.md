@@ -30,7 +30,7 @@ AIOps breaks this linear relationship by inserting **AI inference** between the 
 
 > **Where does AIOps fit?**
 >
-> The industry is moving through three generations of IT automation: **task-based** automation (80% of current workloads — running known playbooks on a schedule or trigger), **event-driven** automation (15% — reacting to known conditions with pre-written rules), and **agent-driven** automation (5% and growing — handling novel situations with real-time contextual judgment). AIOps with Ansible bridges event-driven and agent-driven by using AI to handle situations you *didn't* explicitly write rules for, without requiring a fully autonomous agent.
+> The industry is moving through three generations of IT automation: **task-based** automation (running known playbooks on a schedule or trigger), **event-driven** automation (reacting to known conditions with pre-written rules), and **agent-driven** automation (handling novel situations with real-time contextual judgment). Most organizations today rely heavily on task-based automation, with event-driven adoption growing and agent-driven still emerging. AIOps with Ansible bridges event-driven and agent-driven by using AI to handle situations you *didn't* explicitly write rules for, without requiring a fully autonomous agent.
 
 - [Overview](#overview)
 - [Background](#background)
