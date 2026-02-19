@@ -37,14 +37,18 @@ AIOps breaks this linear relationship by inserting **AI inference** between the 
 - [Solution](#solution)
   - [Who Benefits](#who-benefits)
 - [Prerequisites](#prerequisites)
+  - [Ansible Automation Platform](#ansible-automation-platform)
+  - [Featured Ansible Content Collections](#featured-ansible-content-collections)
+  - [External Systems](#external-systems)
 - [AIOps Workflow](#aiops-workflow)
+  - [Operational Impact per Stage](#operational-impact-per-stage)
   - [Example Workflow Diagram](#example-workflow-diagram)
 - [1. Event-Driven Ansible (EDA) Response](#1-event-driven-ansible-eda-response)
   - [Example Walkthrough for EDA Response](#example-walkthrough-for-eda-response)
   - [1. **IT infrastructure event**:](#1-it-infrastructure-event)
     - [ Application-Level Events](#-application-level-events)
-    - [ Infrastructure & Platform Events](#-infrastructure--platform-events)
-    - [ Network & Security Events](#-network--security-events)
+    - [ Infrastructure \& Platform Events](#-infrastructure--platform-events)
+    - [ Network \& Security Events](#-network--security-events)
     - [Observability-Driven Triggers](#observability-driven-triggers)
   - [2. **Observability tool picks up event**:](#2-observability-tool-picks-up-event)
     - [Filebeat](#filebeat)
@@ -76,6 +80,7 @@ AIOps breaks this linear relationship by inserting **AI inference** between the 
   - [The Broader AIOps Journey](#the-broader-aiops-journey)
   - [Self-Healing Infrastructure: Crawl, Walk, Run](#self-healing-infrastructure-crawl-walk-run)
 - [Related Guides](#related-guides)
+- [Summary](#summary)
 
 <h2 id="background"></h2>
 
